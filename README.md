@@ -17,7 +17,6 @@
 - Jetpack Compose
 - Dagger Hilt
 - Material theming
-- Jetpack Compose
 - Room
 - Coroutines and Flow
 - CameraX
