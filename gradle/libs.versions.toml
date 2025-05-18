@@ -1,0 +1,111 @@
+[versions]
+agp = "8.8.2"
+kotlin = "2.0.0"
+coreKtx = "1.16.0"
+lifecycleRuntimeKtx = "2.9.0"
+activityCompose = "1.10.1"
+composeBom = "2025.05.00"
+hilt = "2.49"
+hiltNavigationCompose = "1.2.0"
+room = "2.7.1"
+retrofit = "2.9.0"
+okhttp = "4.12.0"
+navigationCompose = "2.9.0"
+workManager = "2.10.1"
+hiltWorkManager = "1.2.0"
+kotlinxSerialization = "1.6.0"
+kotlinxSerializationConverter = "1.0.0"
+
+[libraries]
+# Core
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
+
+# Compose
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-graphics = { module = "androidx.compose.ui:ui-graphics" }
+compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+
+# Kotlin Serialization Bundle
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "kotlinxSerializationConverter" }
+
+# Hilt
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+
+# WorkManager
+work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
+work-hilt = { module = "androidx.hilt:hilt-work", version.ref = "hiltWorkManager" }
+work-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltWorkManager" }
+
+# Room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+# Retrofit
+retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+
+# Navigation
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+[bundles]
+core = [
+    "androidx-core-ktx",
+    "lifecycle-runtime-compose",
+]
+
+compose = [
+    "compose-ui",
+    "compose-graphics",
+    "compose-preview",
+    "compose-material3",
+    "compose-activity",
+]
+
+serialization = [
+    "kotlinx-serialization-core",
+    "kotlinx-serialization-json",
+    "kotlinx-serialization-converter",
+]
+
+hilt = [
+    "hilt-android",
+    "hilt-navigation",
+]
+
+work = [
+    "work-runtime",
+    "work-hilt",
+]
+
+room = [
+    "room-runtime",
+    "room-ktx",
+]
+
+retrofit = [
+    "retrofit-core",
+    "okhttp-core",
+    "okhttp-logging",
+]
+
+navigation = [
+    "navigation-compose",
+]
