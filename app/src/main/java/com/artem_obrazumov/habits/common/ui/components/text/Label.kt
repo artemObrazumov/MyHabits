@@ -5,13 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.artem_obrazumov.habits.common.ui.theme.Typography
-import com.artem_obrazumov.habits.common.ui.theme.primaryContentColor
 
 @Composable
 fun Label(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = primaryContentColor()
+    color: Color = Color.Unspecified
 ) {
     Text(
         text = text,

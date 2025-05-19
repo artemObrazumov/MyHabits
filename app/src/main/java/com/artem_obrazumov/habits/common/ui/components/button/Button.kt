@@ -1,8 +1,10 @@
 package com.artem_obrazumov.habits.common.ui.components.button
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.artem_obrazumov.habits.common.ui.components.text.RegularText
@@ -34,8 +36,7 @@ fun Button(
         shape = MaterialTheme.shapes.small
     ) {
         RegularText(
-            text = text,
-            color = Color.White
+            text = text
         )
     }
 }

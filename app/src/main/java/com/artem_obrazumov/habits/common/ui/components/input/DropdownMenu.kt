@@ -98,7 +98,7 @@ fun TextDropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
             offset = DpOffset.Zero,
-            containerColor = MaterialTheme.colorScheme.onSurface,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
         ) {
             items.forEach {
                 DropdownTextItem(
