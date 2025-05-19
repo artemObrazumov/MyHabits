@@ -24,7 +24,9 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = lightColorScheme(
     primary = OrangeLight,
     background = BackgroundLight,
+    surface = BackgroundLight,
     surfaceContainer = Color.White,
+    surfaceTint = darkShadow
 )
 
 private val Shapes = Shapes(
