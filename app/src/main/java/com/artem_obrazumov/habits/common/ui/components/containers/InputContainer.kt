@@ -46,7 +46,7 @@ fun InputContainer(
                     width = 1.dp
                 )
                 .background(
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.surfaceContainer,
                     shape = MaterialTheme.shapes.small
                 )
                 .padding(12.dp)

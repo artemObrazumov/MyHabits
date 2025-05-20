@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.artem_obrazumov.habits.common.ui.theme.darkShadow
 
@@ -24,12 +25,12 @@ fun Card(
             .fillMaxWidth()
             .shadow(
                 shape = MaterialTheme.shapes.small,
-                elevation = 18.dp,
-                spotColor = darkShadow,
+                elevation = 4.dp,
+                spotColor = Color.Black,
                 ambientColor = darkShadow
             )
             .background(
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.surfaceContainer,
                 shape = MaterialTheme.shapes.small,
             )
             .padding(innerPadding)
