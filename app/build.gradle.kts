@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.artem_obrazumov.habits"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -48,6 +48,7 @@ dependencies {
 
     implementation(libs.bundles.core)
     implementation(libs.bundles.compose)
+    debugImplementation(libs.bundles.compose.tooling)
     implementation(libs.bundles.serialization)
     implementation(libs.bundles.hilt)
     implementation(libs.bundles.work)

@@ -24,7 +24,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     contentColor = LocalContentColor.current
                 ) { innerPadding ->
-                    Text("TESTT")
                     App(
                         modifier = Modifier
                             .padding(innerPadding)

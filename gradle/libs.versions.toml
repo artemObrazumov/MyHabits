@@ -4,7 +4,7 @@ kotlin = "2.0.0"
 coreKtx = "1.16.0"
 lifecycleRuntimeKtx = "2.9.0"
 activityCompose = "1.10.1"
-composeBom = "2025.05.00"
+composeBom = "2025.05.01"
 hilt = "2.49"
 hiltNavigationCompose = "1.2.0"
 room = "2.7.1"
@@ -28,6 +28,9 @@ compose-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 
 # Kotlin Serialization Bundle
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
@@ -77,6 +80,11 @@ compose = [
     "compose-preview",
     "compose-material3",
     "compose-activity",
+]
+
+compose-tooling = [
+    "compose-ui-tooling",
+    "compose-ui-manifest"
 ]
 
 serialization = [
