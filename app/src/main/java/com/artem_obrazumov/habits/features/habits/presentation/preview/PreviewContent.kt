@@ -17,6 +17,7 @@ val HABITS_LIST = listOf(
         goal = 2.0,
         startedAt = LocalDate.now(),
         editedAt = LocalDateTime.now(),
+        usersCount = 1
     ),
     Habit(
         id = 1,
@@ -28,5 +29,6 @@ val HABITS_LIST = listOf(
         goal = 10.5,
         startedAt = LocalDate.now(),
         editedAt = LocalDateTime.now(),
+        usersCount = 5
     )
 )

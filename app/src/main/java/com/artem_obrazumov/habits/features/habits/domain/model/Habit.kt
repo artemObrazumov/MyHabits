@@ -13,4 +13,5 @@ data class Habit(
     val goal: Double,
     val startedAt: LocalDate,
     val editedAt: LocalDateTime,
+    val usersCount: Int,
 )

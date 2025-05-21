@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MyHabits</string>
     <string name="progress">Прогресс: %1$s из %2$s %3$s</string>
+    <string name="user_single">участник</string>
+    <string name="user_plural1">участника</string>
+    <string name="user_plural2">участников</string>
 </resources>
