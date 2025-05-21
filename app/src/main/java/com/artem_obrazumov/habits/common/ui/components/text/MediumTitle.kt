@@ -23,6 +23,6 @@ fun MediumTitle(
         style = Typography.titleMedium,
         overflow = overflow,
         minLines = minLines,
-        maxLines = maxLines
+        maxLines = maxLines,
     )
 }

@@ -6,19 +6,33 @@ import androidx.compose.ui.res.stringResource
 import com.artem_obrazumov.habits.R
 import kotlin.math.abs
 
+fun getPluralString(
+    count: Int,
+    single: String,
+    plural1: String,
+    plural2: String
+): String {
+    val last2Numbers = abs(count) % 100
+    val lastNumber = last2Numbers % 10
+    return when {
+        last2Numbers in 11..19 -> plural2
+        lastNumber == 1 -> single
+        lastNumber in 2..4 -> plural1
+        else -> plural2
+    }
+}
+
 @Composable
 fun getPluralString(
     count: Int,
     pluralStringSet: PluralStringSet
 ): String {
-    val last2Numbers = abs(count) % 100
-    val lastNumber = last2Numbers % 10
-    return when {
-        last2Numbers in 11..19 -> stringResource(pluralStringSet.plural2)
-        lastNumber == 1 -> stringResource(pluralStringSet.single)
-        lastNumber in 2..4 ->  stringResource(pluralStringSet.plural1)
-        else -> stringResource(pluralStringSet.plural2)
-    }
+    return getPluralString(
+        count,
+        single = stringResource(pluralStringSet.single),
+        plural1 = stringResource(pluralStringSet.plural1),
+        plural2 = stringResource(pluralStringSet.plural2),
+    )
 }
 
 enum class PluralStringSet(

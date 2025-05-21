@@ -24,6 +24,8 @@
 - Retrofit
 - WorkManager
 - Kotlin Serialization
+- JUnit
+- Espresso
 
 ## Architecture
 

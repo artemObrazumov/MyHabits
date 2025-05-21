@@ -56,6 +56,10 @@ dependencies {
     implementation(libs.bundles.retrofit)
     implementation(libs.bundles.navigation)
 
+    testImplementation(libs.bundles.testing)
+    androidTestImplementation(libs.bundles.testing.android)
+    androidTestImplementation(libs.bundles.testing.compose)
+
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)
     kapt(libs.hilt.compiler)
