@@ -8,6 +8,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.artem_obrazumov.habits.common.ui.components.text.RegularText
+import com.artem_obrazumov.habits.common.ui.theme.primaryContentColor
 
 @Composable
 fun Button(
@@ -20,7 +21,11 @@ fun Button(
         onClick = onClick,
         shape = MaterialTheme.shapes.small
     ) {
-        content()
+        CompositionLocalProvider(
+            LocalContentColor provides Color.White
+        ) {
+            content()
+        }
     }
 }
 
@@ -35,8 +40,12 @@ fun Button(
         onClick = onClick,
         shape = MaterialTheme.shapes.small
     ) {
-        RegularText(
-            text = text
-        )
+        CompositionLocalProvider(
+            LocalContentColor provides Color.White
+        ) {
+            RegularText(
+                text = text
+            )
+        }
     }
 }

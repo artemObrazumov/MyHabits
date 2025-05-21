@@ -4,4 +4,7 @@
     <string name="user_single">участник</string>
     <string name="user_plural1">участника</string>
     <string name="user_plural2">участников</string>
+    <string name="unknown_error">При загрузке произошла неизвестная ошибка. Попробуйте снова.</string>
+    <string name="error_occured">Произошла ошибка</string>
+    <string name="retry">Попробовать снова</string>
 </resources>
