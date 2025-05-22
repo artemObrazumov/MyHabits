@@ -1,33 +1,107 @@
 package com.artem_obrazumov.habits.features.habits.presentation.habits_list
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.artem_obrazumov.habits.R
+import com.artem_obrazumov.habits.common.ui.components.button.Fab
 import com.artem_obrazumov.habits.common.ui.components.containers.ShimmerBox
+import com.artem_obrazumov.habits.common.ui.screens.EmptyStateScreen
 import com.artem_obrazumov.habits.common.ui.screens.FailureScreen
+import com.artem_obrazumov.habits.features.habits.domain.model.Habit
+import com.artem_obrazumov.habits.features.habits.presentation.components.HabitItem
+import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreenTags.HABITS_LIST_ADD_BUTTON
+import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreenTags.HABITS_LIST_CONTENT
+import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreenTags.HABITS_LIST_LOADING
 
 @Composable
 fun HabitsListScreen(
     state: HabitsListScreenState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAction: (action: HabitsListScreenAction) -> Unit = {}
 ) {
     when(state) {
         is HabitsListScreenState.Content -> {
-
+            HabitsListScreenContent(
+                habits = state.habitsList,
+                onAction = onAction
+            )
         }
         is HabitsListScreenState.Failure -> {
             FailureScreen(
                 modifier = modifier,
-                message = state.errorMessage.asString()
+                message = state.errorMessage.asString(),
+                onRetry = {
+                    onAction(HabitsListScreenAction.Retry)
+                }
             )
         }
         HabitsListScreenState.Loading -> {
             HabitsListLoadingScreen(
                 modifier = modifier
+            )
+        }
+    }
+}
+
+@Composable
+fun HabitsListScreenContent(
+    habits: List<Habit>,
+    modifier: Modifier = Modifier,
+    onAction: (action: HabitsListScreenAction) -> Unit = {}
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .testTag(HABITS_LIST_CONTENT)
+    ) {
+        if (habits.isEmpty()) {
+            EmptyStateScreen(
+                title = stringResource(R.string.habits_empty_title),
+                subtitle = stringResource(R.string.habits_empty_subtitle)
+            )
+        } else {
+            LazyColumn {
+                items(
+                    items = habits,
+                    key = { it.id }
+                ) {
+                    HabitItem(
+                        habit = it,
+                        onHabitClicked = {
+                            onAction(HabitsListScreenAction.OpenHabitDetails(it.id))
+                        }
+                    )
+                }
+            }
+        }
+
+        Fab(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 32.dp)
+                .padding(end = 32.dp)
+                .testTag(HABITS_LIST_ADD_BUTTON),
+            onClick = {
+                onAction(HabitsListScreenAction.AddHabit)
+            }
+        ) {
+            Icon(
+                Icons.Default.Add,
+                contentDescription = stringResource(R.string.add_habit)
             )
         }
     }
@@ -40,6 +114,7 @@ fun HabitsListLoadingScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
+            .testTag(HABITS_LIST_LOADING)
     ) {
         items(
             count = 6
@@ -51,4 +126,11 @@ fun HabitsListLoadingScreen(
             )
         }
     }
+}
+
+object HabitsListScreenTags {
+
+    const val HABITS_LIST_LOADING = "habits_list_loading"
+    const val HABITS_LIST_CONTENT = "habits_list_content"
+    const val HABITS_LIST_ADD_BUTTON = "habits_list_add_button"
 }

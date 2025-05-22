@@ -7,4 +7,7 @@
     <string name="unknown_error">При загрузке произошла неизвестная ошибка. Попробуйте снова.</string>
     <string name="error_occured">Произошла ошибка</string>
     <string name="retry">Попробовать снова</string>
+    <string name="add_habit">Добавить привычку</string>
+    <string name="habits_empty_title">Еще нет привычек</string>
+    <string name="habits_empty_subtitle">Вы можете добавить привычку, нажав на кнопку внизу экрана.</string>
 </resources>

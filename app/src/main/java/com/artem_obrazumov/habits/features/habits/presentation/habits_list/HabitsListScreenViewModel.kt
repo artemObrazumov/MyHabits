@@ -46,7 +46,16 @@ class HabitsListScreenViewModel(
     }
 
     override fun onAction(action: HabitsListScreenAction) {
+        when (action) {
+            HabitsListScreenAction.AddHabit -> {
 
+            }
+            is HabitsListScreenAction.OpenHabitDetails -> TODO()
+            HabitsListScreenAction.Retry -> {
+                updateState(HabitsListScreenState.Loading)
+                loadHabits()
+            }
+        }
     }
 
 }
@@ -66,8 +75,20 @@ sealed class HabitsListScreenState : State {
 
 sealed class HabitsListScreenAction : Action {
 
+    data object Retry: HabitsListScreenAction()
+
+    data class OpenHabitDetails(
+        val id: Long
+    ): HabitsListScreenAction()
+
+    data object AddHabit: HabitsListScreenAction()
 }
 
 sealed class HabitsListScreenEffect : Effect {
 
+    data object NavigateToAddHabitScreen: HabitsListScreenEffect()
+
+    data class NavigateToHabitDetailsScreen(
+        val id: Long
+    ): HabitsListScreenEffect()
 }

@@ -33,6 +33,7 @@ import com.artem_obrazumov.habits.common.ui.util.PluralStringSet
 import com.artem_obrazumov.habits.common.ui.util.formatToString
 import com.artem_obrazumov.habits.common.ui.util.getPluralString
 import com.artem_obrazumov.habits.features.habits.domain.model.Habit
+import com.artem_obrazumov.habits.features.habits.presentation.components.HabitItemTags.HABIT_ITEM
 import com.artem_obrazumov.habits.features.habits.presentation.preview.HABITS_LIST
 import java.time.format.DateTimeFormatter
 
@@ -44,6 +45,7 @@ fun HabitItem(
 ) {
     Card(
         modifier = modifier
+            .testTag(HABIT_ITEM)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
@@ -137,4 +139,9 @@ fun HabitItemLongTitlePreview() {
             habit = HABITS_LIST[1]
         )
     }
+}
+
+object HabitItemTags {
+
+    const val HABIT_ITEM = "habit_item"
 }
