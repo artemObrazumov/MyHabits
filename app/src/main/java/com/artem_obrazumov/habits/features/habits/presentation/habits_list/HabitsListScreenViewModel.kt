@@ -10,9 +10,12 @@ import com.artem_obrazumov.habits.common.ui.view_model.State
 import com.artem_obrazumov.habits.common.ui.view_model.StatefulViewModel
 import com.artem_obrazumov.habits.features.habits.domain.model.Habit
 import com.artem_obrazumov.habits.features.habits.domain.use_case.LoadHabitsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HabitsListScreenViewModel(
+//@HiltViewModel
+class HabitsListScreenViewModel @Inject constructor(
     private val loadHabitsUseCase: LoadHabitsUseCase
 ) : StatefulViewModel<HabitsListScreenState, HabitsListScreenAction, HabitsListScreenEffect>(
     initialState = HabitsListScreenState.Loading
