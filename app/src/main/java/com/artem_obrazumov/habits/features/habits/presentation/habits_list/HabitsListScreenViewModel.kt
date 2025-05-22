@@ -14,7 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-//@HiltViewModel
+@HiltViewModel
 class HabitsListScreenViewModel @Inject constructor(
     private val loadHabitsUseCase: LoadHabitsUseCase
 ) : StatefulViewModel<HabitsListScreenState, HabitsListScreenAction, HabitsListScreenEffect>(

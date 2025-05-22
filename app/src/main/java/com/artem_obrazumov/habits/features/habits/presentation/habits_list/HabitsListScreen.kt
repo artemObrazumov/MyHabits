@@ -74,7 +74,10 @@ fun HabitsListScreenContent(
                 subtitle = stringResource(R.string.habits_empty_subtitle)
             )
         } else {
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+            ) {
                 items(
                     items = habits,
                     key = { it.id }
@@ -93,7 +96,7 @@ fun HabitsListScreenContent(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 32.dp)
-                .padding(end = 32.dp)
+                .padding(end = 16.dp)
                 .testTag(HABITS_LIST_ADD_BUTTON),
             onClick = {
                 onAction(HabitsListScreenAction.AddHabit)

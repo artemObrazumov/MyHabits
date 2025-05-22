@@ -11,10 +11,10 @@ import dagger.hilt.android.components.ViewModelComponent
 @InstallIn(ViewModelComponent::class)
 object UseCaseModule {
 
-//    @Provides
-//    fun provideLoadHabitsUseCase(
-//        habitsLocalDataSource: HabitsLocalDataSource
-//    ): LoadHabitsUseCase {
-//        return LoadHabitsUseCase(habitsLocalDataSource)
-//    }
+    @Provides
+    fun provideLoadHabitsUseCase(
+        habitsLocalDataSource: HabitsLocalDataSource
+    ): LoadHabitsUseCase {
+        return LoadHabitsUseCase(habitsLocalDataSource)
+    }
 }
