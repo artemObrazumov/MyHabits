@@ -28,7 +28,7 @@ class HabitsListScreenTest {
         val loadingState = HabitsListScreenState.Loading
 
         composeTestRule.setContent {
-            HabitsListScreen(
+            HabitsListScreenContent(
                 state = loadingState
             )
         }
@@ -45,7 +45,7 @@ class HabitsListScreenTest {
     fun displays_failure_state() {
 
         composeTestRule.setContent {
-            HabitsListScreen(
+            HabitsListScreenContent(
                 state = failureState
             )
         }
@@ -60,7 +60,7 @@ class HabitsListScreenTest {
         var clicked = false
 
         composeTestRule.setContent {
-            HabitsListScreen(
+            HabitsListScreenContent(
                 state = failureState,
                 onAction = { action ->
                     if (action is HabitsListScreenAction.Retry) {
@@ -81,7 +81,7 @@ class HabitsListScreenTest {
         val emptyContentState = HabitsListScreenState.Content(emptyList())
 
         composeTestRule.setContent {
-            HabitsListScreen(
+            HabitsListScreenContent(
                 state = emptyContentState
             )
         }
@@ -115,7 +115,7 @@ class HabitsListScreenTest {
     fun displays_content_state() {
 
         composeTestRule.setContent {
-            HabitsListScreen(
+            HabitsListScreenContent(
                 state = contentState
             )
         }
@@ -136,7 +136,7 @@ class HabitsListScreenTest {
         val clicked = BooleanArray(3) { false }
 
         composeTestRule.setContent {
-            HabitsListScreen(
+            HabitsListScreenContent(
                 state = contentState,
                 onAction = { action ->
                     if (action is HabitsListScreenAction.OpenHabitDetails) {
@@ -164,7 +164,7 @@ class HabitsListScreenTest {
         var clicked = false
 
         composeTestRule.setContent {
-            HabitsListScreen(
+            HabitsListScreenContent(
                 state = contentState,
                 onAction = { action ->
                     if (action is HabitsListScreenAction.AddHabit) {

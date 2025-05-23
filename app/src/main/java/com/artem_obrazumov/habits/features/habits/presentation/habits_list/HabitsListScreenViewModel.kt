@@ -49,18 +49,23 @@ class HabitsListScreenViewModel @Inject constructor(
     }
 
     override fun onAction(action: HabitsListScreenAction) {
-        when (action) {
-            HabitsListScreenAction.AddHabit -> {
+        viewModelScope.launch {
+            when (action) {
+                HabitsListScreenAction.AddHabit -> {
+                    updateEffect(HabitsListScreenEffect.NavigateToAddHabitScreen)
+                }
 
-            }
-            is HabitsListScreenAction.OpenHabitDetails -> TODO()
-            HabitsListScreenAction.Retry -> {
-                updateState(HabitsListScreenState.Loading)
-                loadHabits()
+                is HabitsListScreenAction.OpenHabitDetails -> {
+                    updateEffect(HabitsListScreenEffect.NavigateToHabitDetailsScreen(action.id))
+                }
+
+                HabitsListScreenAction.Retry -> {
+                    updateState(HabitsListScreenState.Loading)
+                    loadHabits()
+                }
             }
         }
     }
-
 }
 
 sealed class HabitsListScreenState : State {

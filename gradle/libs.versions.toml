@@ -1,24 +1,28 @@
 [versions]
-agp = "8.8.2"
+agp = "8.9.3"
 junit = "4.13.2"
 kotlin = "2.0.0"
 coreKtx = "1.16.0"
 lifecycleRuntimeKtx = "2.9.0"
-activityCompose = "1.10.1"
+lifecycleViewmodel = "1.0.0-SNAPSHOT"
+activityCompose = "1.12.0-alpha01"
 composeBom = "2025.05.01"
 hilt = "2.56.1"
 hiltNavigationCompose = "1.2.0"
 room = "2.7.1"
 retrofit = "2.9.0"
 okhttp = "4.12.0"
-navigationCompose = "2.9.0"
+navigation3 = "1.0.0-alpha01"
 workManager = "2.10.1"
 hiltWorkManager = "1.2.0"
-kotlinxSerialization = "1.6.0"
+kotlinxSerialization = "1.7.3"
 kotlinxSerializationConverter = "1.0.0"
 androidJunit = "1.2.1"
 espresso = "3.6.1"
 composeJunit = "1.8.2"
+mockk = "1.13.8"
+material3 = "1.4.0-alpha15"
+material-icons-extended = "1.8.2"
 
 [libraries]
 # Core
@@ -30,8 +34,9 @@ compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeB
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
-compose-material3 = { module = "androidx.compose.material3:material3" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-material-icons-extended = {  group = "androidx.compose.material", name = "material-icons-extended"}
 
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
@@ -62,13 +67,17 @@ okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 
 # Navigation
-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodel" }
 
 # Testing
 junit = { module = "junit:junit", version.ref = "junit" }
 junit-compose = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "composeJunit" }
 junit-android = { module = "androidx.test.ext:junit", version.ref = "androidJunit" }
 espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
+mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -90,6 +99,7 @@ compose = [
     "compose-preview",
     "compose-material3",
     "compose-activity",
+    "androidx-material-icons-extended"
 ]
 
 compose-tooling = [
@@ -125,11 +135,15 @@ retrofit = [
 ]
 
 navigation = [
-    "navigation-compose",
+    "androidx-navigation3-runtime",
+    "androidx-navigation3-ui",
+    "androidx-lifecycle-viewmodel-navigation3",
 ]
 
 testing = [
     "junit",
+    "mockk-agent",
+    "mockk-android"
 ]
 
 testing-android = [

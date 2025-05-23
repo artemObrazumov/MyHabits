@@ -20,12 +20,13 @@
 - Room
 - Coroutines and Flow
 - CameraX
-- Jetpack Navigation
+- Jetpack Navigation 3
 - Retrofit
 - WorkManager
 - Kotlin Serialization
 - JUnit
 - Espresso
+- MockK
 
 ## Architecture
 

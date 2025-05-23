@@ -11,31 +11,64 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation3.runtime.NavBackStack
 import com.artem_obrazumov.habits.R
 import com.artem_obrazumov.habits.common.ui.components.button.Fab
 import com.artem_obrazumov.habits.common.ui.components.containers.ShimmerBox
 import com.artem_obrazumov.habits.common.ui.screens.EmptyStateScreen
 import com.artem_obrazumov.habits.common.ui.screens.FailureScreen
+import com.artem_obrazumov.habits.common.ui.util.collectEffect
 import com.artem_obrazumov.habits.features.habits.domain.model.Habit
 import com.artem_obrazumov.habits.features.habits.presentation.components.HabitItem
 import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreenTags.HABITS_LIST_ADD_BUTTON
 import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreenTags.HABITS_LIST_CONTENT
 import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreenTags.HABITS_LIST_LOADING
+import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsDetails
+import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsEditor
 
 @Composable
 fun HabitsListScreen(
+    backStack: NavBackStack,
+    viewModel: HabitsListScreenViewModel,
+    modifier: Modifier = Modifier
+) {
+    val state by viewModel.state.collectAsState()
+
+    viewModel.effect.collectEffect { effect ->
+        when(effect) {
+            HabitsListScreenEffect.NavigateToAddHabitScreen -> {
+                backStack.add(HabitsEditor())
+            }
+            is HabitsListScreenEffect.NavigateToHabitDetailsScreen -> {
+                backStack.add(HabitsDetails(effect.id))
+            }
+        }
+    }
+
+    HabitsListScreenContent(
+        state = state,
+        modifier = modifier,
+        onAction = viewModel::onAction,
+    )
+}
+
+@Composable
+fun HabitsListScreenContent(
     state: HabitsListScreenState,
     modifier: Modifier = Modifier,
-    onAction: (action: HabitsListScreenAction) -> Unit = {}
+    onAction: (action: HabitsListScreenAction) -> Unit = {},
 ) {
+
     when(state) {
         is HabitsListScreenState.Content -> {
-            HabitsListScreenContent(
+            HabitsListScreenContentState(
                 habits = state.habitsList,
                 onAction = onAction
             )
@@ -58,7 +91,7 @@ fun HabitsListScreen(
 }
 
 @Composable
-fun HabitsListScreenContent(
+fun HabitsListScreenContentState(
     habits: List<Habit>,
     modifier: Modifier = Modifier,
     onAction: (action: HabitsListScreenAction) -> Unit = {}

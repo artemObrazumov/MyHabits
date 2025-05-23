@@ -1,21 +1,49 @@
 package com.artem_obrazumov.habits.app
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.artem_obrazumov.habits.common.ui.components.DesignThemeScreen
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
 import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreen
 import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreenViewModel
+import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsDetails
+import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsEditor
+import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsList
 
 @Composable
-fun App(modifier: Modifier = Modifier) {
+fun App(
+    modifier: Modifier = Modifier
+) {
 
-    val viewModel: HabitsListScreenViewModel = hiltViewModel()
-    val state by viewModel.state.collectAsState()
-    HabitsListScreen(
-        state = state
-    )
+    val backStack = rememberNavBackStack(HabitsList)
 
+    NavDisplay(
+        modifier = modifier,
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() }
+    ) { route ->
+        when (route) {
+
+            HabitsList -> NavEntry(route) {
+                val viewModel: HabitsListScreenViewModel = hiltViewModel()
+                HabitsListScreen(
+                    backStack = backStack,
+                    viewModel = viewModel
+                )
+            }
+
+            is HabitsEditor -> NavEntry(route) {
+                Text(route.id.toString())
+            }
+
+            is HabitsDetails -> NavEntry(route) {
+                Text(route.id.toString())
+            }
+
+            else -> throw IllegalArgumentException("No such route: $route")
+        }
+    }
 }
