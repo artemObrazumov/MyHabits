@@ -1,10 +1,13 @@
 package com.artem_obrazumov.habits.common.ui.view_model
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 
 abstract class StatefulViewModel<S: State, A: Action, E: Effect>(
     initialState: S
@@ -12,8 +15,16 @@ abstract class StatefulViewModel<S: State, A: Action, E: Effect>(
 
     private val _state = MutableStateFlow(initialState)
     val state = _state.asStateFlow()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(
+                stopTimeoutMillis = 1000,
+                replayExpirationMillis = 9000
+            ),
+            initialValue = initialState
+        )
 
-    private val _effect = MutableSharedFlow<Effect>()
+    private val _effect = MutableSharedFlow<Effect>(replay = 1)
     val effect = _effect.asSharedFlow()
 
     protected fun updateState(newState: S) {
