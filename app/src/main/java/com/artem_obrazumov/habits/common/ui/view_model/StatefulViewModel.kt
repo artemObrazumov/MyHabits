@@ -24,7 +24,7 @@ abstract class StatefulViewModel<S: State, A: Action, E: Effect>(
             initialValue = initialState
         )
 
-    private val _effect = MutableSharedFlow<Effect>(replay = 1)
+    private val _effect = MutableSharedFlow<Effect>()
     val effect = _effect.asSharedFlow()
 
     protected fun updateState(newState: S) {

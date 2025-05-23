@@ -1,6 +1,7 @@
 package com.artem_obrazumov.habits.features.habits.presentation.di
 
 import com.artem_obrazumov.habits.features.habits.domain.data_source.HabitsLocalDataSource
+import com.artem_obrazumov.habits.features.habits.domain.use_case.LoadHabitOnceUseCase
 import com.artem_obrazumov.habits.features.habits.domain.use_case.LoadHabitsUseCase
 import dagger.Module
 import dagger.Provides
@@ -16,5 +17,12 @@ object UseCaseModule {
         habitsLocalDataSource: HabitsLocalDataSource
     ): LoadHabitsUseCase {
         return LoadHabitsUseCase(habitsLocalDataSource)
+    }
+
+    @Provides
+    fun provideLoadHabitOnceUseCase(
+        habitsLocalDataSource: HabitsLocalDataSource
+    ): LoadHabitOnceUseCase {
+        return LoadHabitOnceUseCase(habitsLocalDataSource)
     }
 }

@@ -7,6 +7,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.artem_obrazumov.habits.features.habits.presentation.habits_editor.HabitsEditorScreen
+import com.artem_obrazumov.habits.features.habits.presentation.habits_editor.HabitsEditorScreenViewModel
 import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreen
 import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreenViewModel
 import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsDetails
@@ -36,7 +38,14 @@ fun App(
             }
 
             is HabitsEditor -> NavEntry(route) {
-                Text(route.id.toString())
+                val viewModel = hiltViewModel<HabitsEditorScreenViewModel,
+                        HabitsEditorScreenViewModel.Factory> { factory ->
+                    factory.create(route.id)
+                }
+                HabitsEditorScreen(
+                    backStack = backStack,
+                    viewModel = viewModel
+                )
             }
 
             is HabitsDetails -> NavEntry(route) {

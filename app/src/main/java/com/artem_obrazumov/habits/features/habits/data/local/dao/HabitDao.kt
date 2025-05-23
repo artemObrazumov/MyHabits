@@ -5,6 +5,7 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.artem_obrazumov.habits.features.habits.data.local.entity.HabitEntity
 import com.artem_obrazumov.habits.features.habits.data.local.entity.HabitEntity.Companion.HABIT_TABLE
+import com.artem_obrazumov.habits.features.habits.data.local.entity.HabitEntity.Companion.ID
 import com.artem_obrazumov.habits.features.habits.data.local.entity.HabitEntity.Companion.IS_DELETED
 import kotlinx.coroutines.flow.Flow
 
@@ -16,4 +17,7 @@ interface HabitDao {
 
     @Upsert
     fun upsertHabit(habit: HabitEntity)
+
+    @Query("Select * From $HABIT_TABLE Where $ID = :id")
+    fun observeById(id: Long): Flow<HabitEntity>
 }

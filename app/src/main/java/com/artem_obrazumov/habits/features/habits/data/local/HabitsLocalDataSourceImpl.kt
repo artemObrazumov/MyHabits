@@ -16,4 +16,8 @@ class HabitsLocalDataSourceImpl(
             habits.map { it.toHabit() }
         }
     }
+
+    override suspend fun observeHabitById(id: Long): Flow<Habit> {
+        return habitDao.observeById(id).map { it.toHabit() }
+    }
 }

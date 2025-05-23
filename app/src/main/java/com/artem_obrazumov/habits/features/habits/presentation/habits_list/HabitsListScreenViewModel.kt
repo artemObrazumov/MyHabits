@@ -68,35 +68,35 @@ class HabitsListScreenViewModel @Inject constructor(
     }
 }
 
-sealed class HabitsListScreenState : State {
+sealed interface HabitsListScreenState : State {
 
-    data object Loading : HabitsListScreenState()
+    data object Loading : HabitsListScreenState
 
     data class Content(
         val habitsList: List<Habit>
-    ) : HabitsListScreenState()
+    ) : HabitsListScreenState
 
     data class Failure(
         val errorMessage: UIText
-    ) : HabitsListScreenState()
+    ) : HabitsListScreenState
 }
 
-sealed class HabitsListScreenAction : Action {
+sealed interface HabitsListScreenAction : Action {
 
-    data object Retry: HabitsListScreenAction()
+    data object Retry: HabitsListScreenAction
 
     data class OpenHabitDetails(
         val id: Long
-    ): HabitsListScreenAction()
+    ): HabitsListScreenAction
 
-    data object AddHabit: HabitsListScreenAction()
+    data object AddHabit: HabitsListScreenAction
 }
 
-sealed class HabitsListScreenEffect : Effect {
+sealed interface HabitsListScreenEffect : Effect {
 
-    data object NavigateToAddHabitScreen: HabitsListScreenEffect()
+    data object NavigateToAddHabitScreen: HabitsListScreenEffect
 
     data class NavigateToHabitDetailsScreen(
         val id: Long
-    ): HabitsListScreenEffect()
+    ): HabitsListScreenEffect
 }
