@@ -51,7 +51,7 @@ class HabitsListScreenViewModelTest {
         )
     )
 
-    private val habits2 = habits.map { it.copy(id = it.id + 1) }
+    private val habits2 = habits.map { it.copy(id = (it.id ?: 0) + 1) }
 
     @Before
     fun setup() {

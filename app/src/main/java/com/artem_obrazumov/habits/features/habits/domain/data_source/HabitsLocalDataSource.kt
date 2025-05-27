@@ -7,4 +7,5 @@ interface HabitsLocalDataSource {
 
     suspend fun observeHabitsFromDatabase(): Flow<List<Habit>>
     suspend fun observeHabitById(id: Long): Flow<Habit>
+    suspend fun upsertHabit(habit: Habit)
 }

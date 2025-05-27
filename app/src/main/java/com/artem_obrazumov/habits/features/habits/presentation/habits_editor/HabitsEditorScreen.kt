@@ -49,7 +49,7 @@ import com.artem_obrazumov.habits.features.habits.domain.model.GoalType
 import com.artem_obrazumov.habits.features.habits.domain.model.ProgressFrequency
 import com.artem_obrazumov.habits.features.habits.presentation.habits_editor.HabitsEditorScreenTags.HABITS_EDITOR_CONTENT
 import com.artem_obrazumov.habits.features.habits.presentation.habits_editor.HabitsEditorScreenTags.HABITS_EDITOR_LOADING
-import com.artem_obrazumov.habits.features.habits.presentation.util.toStringComp
+import com.artem_obrazumov.habits.features.habits.presentation.util.asStringComp
 
 @Composable
 fun HabitsEditorScreen(
@@ -61,9 +61,7 @@ fun HabitsEditorScreen(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    viewModel.effect.collectEffect {
-
-    }
+    viewModel.effect.collectEffect {}
 
     Column(
         modifier = modifier
@@ -82,7 +80,7 @@ fun HabitsEditorScreen(
 fun HabitsEditorScreenContent(
     state: HabitsEditorScreenState,
     modifier: Modifier = Modifier,
-    onAction: (action: HabitsEditorScreenAction) -> Unit
+    onAction: (action: HabitsEditorScreenAction) -> Unit = {}
 ) {
 
     when(state) {
@@ -161,7 +159,7 @@ fun HabitsEditorScreenContentState(
             onClick = {
                 goalTypeMenuExpanded = true
             },
-            value = formState.goalTypeOption.toStringComp(),
+            value = formState.goalTypeOption.asStringComp(),
             label = {
                 Label(
                     text = stringResource(R.string.goal_type)
@@ -170,7 +168,7 @@ fun HabitsEditorScreenContentState(
         ) {
             GoalType.entries.forEach { goalType ->
                 DropdownTextItem(
-                    text = goalType.toStringComp(),
+                    text = goalType.asStringComp(),
                     onClick = {
                         goalTypeMenuExpanded = false
                         onAction(HabitsEditorScreenAction.ChangeHabitGoalType(goalType))
@@ -185,7 +183,7 @@ fun HabitsEditorScreenContentState(
             onClick = {
                 frequencyMenuExpanded = true
             },
-            value = formState.frequencyOption.toStringComp(),
+            value = formState.frequencyOption.asStringComp(),
             label = {
                 Label(
                     text = stringResource(R.string.progress_frequency)
@@ -194,7 +192,7 @@ fun HabitsEditorScreenContentState(
         ) {
             ProgressFrequency.entries.forEach { frequency ->
                 DropdownTextItem(
-                    text = frequency.toStringComp(),
+                    text = frequency.asStringComp(),
                     onClick = {
                         frequencyMenuExpanded = false
                         onAction(HabitsEditorScreenAction.ChangeHabitFrequency(frequency))

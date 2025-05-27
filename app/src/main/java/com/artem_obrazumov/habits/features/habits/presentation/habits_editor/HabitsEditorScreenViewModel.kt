@@ -10,16 +10,18 @@ import com.artem_obrazumov.habits.common.ui.view_model.Effect
 import com.artem_obrazumov.habits.common.ui.view_model.State
 import com.artem_obrazumov.habits.common.ui.view_model.StatefulViewModel
 import com.artem_obrazumov.habits.features.habits.domain.model.GoalType
+import com.artem_obrazumov.habits.features.habits.domain.model.Habit
 import com.artem_obrazumov.habits.features.habits.domain.model.ProgressFrequency
 import com.artem_obrazumov.habits.features.habits.domain.use_case.LoadHabitOnceUseCase
-import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitEditorFormValidationResult
-import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsEditorFormValidator
+import com.artem_obrazumov.habits.features.habits.domain.use_case.UpsertHabitUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
 import kotlin.properties.Delegates
 
 @HiltViewModel(
@@ -28,6 +30,7 @@ import kotlin.properties.Delegates
 class HabitsEditorScreenViewModel @AssistedInject constructor(
     @Assisted val id: Long? = null,
     private val loadHabitOnceUseCase: LoadHabitOnceUseCase,
+    private val upsertHabitUseCase: UpsertHabitUseCase,
     private val habitsEditorFormValidator: HabitsEditorFormValidator
 ) : StatefulViewModel<HabitsEditorScreenState, HabitsEditorScreenAction, HabitsEditorScreenEffect>(
     initialState = HabitsEditorScreenState.Loading
@@ -83,6 +86,8 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
                         measurement = habit.measurement,
                         startString = habit.progress.toString(),
                         goalString = habit.goal.toString(),
+                        userCount = habit.usersCount,
+                        startedAt = habit.startedAt
                     )
                 }
             }
@@ -129,9 +134,41 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
     }
 
     private fun upsertHabit() {
-        loadingState = loadingState.copy(
-            isUploading = true
-        )
+        viewModelScope.launch {
+            loadingState = loadingState.copy(
+                isUploading = true
+            )
+            val formState = (state.value as HabitsEditorScreenState.Content).formState
+            val habit = Habit(
+                id = id,
+                name = formState.name,
+                measurement = formState.measurement,
+                goalType = formState.goalTypeOption,
+                frequency = formState.frequencyOption,
+                progress = formState.startString.toDouble(),
+                goal = formState.goalString.toDouble(),
+                startedAt = formState.startedAt ?: LocalDate.now(),
+                editedAt = LocalDateTime.now(),
+                usersCount = formState.userCount
+            )
+            when(val result = upsertHabitUseCase.invoke(habit)) {
+                is Result.Failure -> {
+                    val messageResource = when(result.error) {
+                        else -> R.string.error_occured
+                    }
+                    loadingState = loadingState.copy(
+                        message = Message.Error(UIText.StringResource(messageResource)),
+                        isUploading = false
+                    )
+                }
+                is Result.Success -> {
+                    loadingState = loadingState.copy(
+                        message = Message.Success(UIText.StringResource(R.string.habit_uploaded)),
+                        isUploading = false
+                    )
+                }
+            }
+        }
     }
 
     override fun onAction(action: HabitsEditorScreenAction) {
@@ -216,6 +253,8 @@ data class FormState(
     val measurement: String = "",
     val startString: String = "",
     val goalString: String = "",
+    val userCount: Int = 1,
+    val startedAt: LocalDate? = null
 )
 
 data class LoadingState(
@@ -254,7 +293,4 @@ sealed interface HabitsEditorScreenAction : Action {
     data object Save : HabitsEditorScreenAction
 }
 
-sealed interface HabitsEditorScreenEffect : Effect {
-
-
-}
+sealed interface HabitsEditorScreenEffect : Effect

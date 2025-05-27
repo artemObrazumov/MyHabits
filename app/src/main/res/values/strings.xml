@@ -34,4 +34,5 @@
     <string name="invalid_goal">Некорректное значение цели</string>
     <string name="back">Назад</string>
     <string name="editing_habit">Редактирование привычки</string>
+    <string name="habit_uploaded">Привычка сохранена!</string>
 </resources>

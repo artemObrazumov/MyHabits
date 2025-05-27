@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class Habit(
-    val id: Long,
+    val id: Long? = null,
     val name: String,
     val measurement: String,
     val goalType: GoalType,

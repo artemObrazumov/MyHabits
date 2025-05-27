@@ -12,6 +12,7 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.NavEntry
@@ -28,6 +29,9 @@ import com.artem_obrazumov.habits.features.habits.presentation.habits_list.Habit
 import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsDetails
 import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsEditor
 import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsList
+import java.util.UUID
+
+const val ANIMATION_DURATION = 300
 
 @Composable
 fun App(
@@ -44,12 +48,12 @@ fun App(
         val contentTransform = ContentTransform(
             scaleIn(
                 initialScale = 0.9f,
-                animationSpec = tween(400)
-            ) + fadeIn(animationSpec = tween(400)),
+                animationSpec = tween(ANIMATION_DURATION)
+            ) + fadeIn(animationSpec = tween(ANIMATION_DURATION)),
             scaleOut(
                 targetScale = 0.9f,
-                animationSpec = tween(400)
-            ) + fadeOut(animationSpec = tween(400))
+                animationSpec = tween(ANIMATION_DURATION)
+            ) + fadeOut(animationSpec = tween(ANIMATION_DURATION))
         )
 
         NavDisplay(
@@ -71,10 +75,15 @@ fun App(
                 }
 
                 is HabitsEditor -> NavEntry(route) {
-                    val viewModel = hiltViewModel<HabitsEditorScreenViewModel,
-                            HabitsEditorScreenViewModel.Factory> { factory ->
-                        factory.create(route.id)
-                    }
+
+                    val viewModelKey = rememberSaveable { UUID.randomUUID().toString() }
+
+                    val viewModel =
+                        hiltViewModel<HabitsEditorScreenViewModel, HabitsEditorScreenViewModel.Factory>(
+                            key = viewModelKey
+                        ) { factory ->
+                            factory.create(route.id)
+                        }
                     HabitsEditorScreen(
                         backStack = backStack,
                         viewModel = viewModel,

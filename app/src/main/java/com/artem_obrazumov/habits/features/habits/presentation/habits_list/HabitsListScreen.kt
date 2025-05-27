@@ -115,12 +115,14 @@ fun HabitsListScreenContentState(
             ) {
                 items(
                     items = habits,
-                    key = { it.id }
+                    key = { it.id ?: throw IllegalArgumentException("Habits without id cant appear in habits list") }
                 ) {
                     HabitItem(
                         habit = it,
                         onHabitClicked = {
-                            onAction(HabitsListScreenAction.OpenHabitDetails(it.id))
+                            onAction(HabitsListScreenAction.OpenHabitDetails(
+                                it.id ?: throw IllegalArgumentException("Habits without id cant appear in habits list")
+                            ))
                         }
                     )
                 }

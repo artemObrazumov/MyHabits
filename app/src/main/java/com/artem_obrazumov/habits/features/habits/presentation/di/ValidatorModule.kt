@@ -1,6 +1,6 @@
 package com.artem_obrazumov.habits.features.habits.presentation.di
 
-import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsEditorFormValidator
+import com.artem_obrazumov.habits.features.habits.presentation.habits_editor.HabitsEditorFormValidator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

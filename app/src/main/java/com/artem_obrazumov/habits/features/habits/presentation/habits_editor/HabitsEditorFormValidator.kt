@@ -1,4 +1,4 @@
-package com.artem_obrazumov.habits.features.habits.presentation.habits_list
+package com.artem_obrazumov.habits.features.habits.presentation.habits_editor
 
 class HabitsEditorFormValidator {
 

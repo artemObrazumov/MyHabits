@@ -14,7 +14,7 @@ import java.time.LocalDateTime
 data class HabitEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ID)
-    val id: Long,
+    val id: Long?,
     @ColumnInfo(name = NAME)
     val name: String,
     @ColumnInfo(name = MEASUREMENT)
@@ -65,5 +65,21 @@ fun HabitEntity.toHabit(): Habit {
         startedAt = startedAt,
         editedAt = editedAt,
         usersCount = usersCount
+    )
+}
+
+fun Habit.toHabitEntity(): HabitEntity {
+    return HabitEntity(
+        id = id,
+        name = name,
+        measurement = measurement,
+        goalType = goalType,
+        frequency = frequency,
+        progress = progress,
+        goal = goal,
+        startedAt = startedAt,
+        editedAt = editedAt,
+        usersCount = usersCount,
+        isDeleted = false
     )
 }

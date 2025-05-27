@@ -2,17 +2,16 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ebec4cb9129e4f691939c9f1b3cb63a6",
+    "identityHash": "391fc8a348a27a57c44e0e9c91d56f85",
     "entities": [
       {
         "tableName": "habits",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `measurement` TEXT NOT NULL, `goal_type` TEXT NOT NULL, `frequency` TEXT NOT NULL, `progress` REAL NOT NULL, `goal` REAL NOT NULL, `started_at` TEXT NOT NULL, `edited_at` TEXT NOT NULL, `users_count` INTEGER NOT NULL, `is_deleted` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `measurement` TEXT NOT NULL, `goal_type` TEXT NOT NULL, `frequency` TEXT NOT NULL, `progress` REAL NOT NULL, `goal` REAL NOT NULL, `started_at` TEXT NOT NULL, `edited_at` TEXT NOT NULL, `users_count` INTEGER NOT NULL, `is_deleted` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "name",
@@ -85,7 +84,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ebec4cb9129e4f691939c9f1b3cb63a6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '391fc8a348a27a57c44e0e9c91d56f85')"
     ]
   }
 }
