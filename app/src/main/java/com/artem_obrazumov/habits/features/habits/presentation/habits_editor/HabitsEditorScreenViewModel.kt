@@ -90,6 +90,10 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
     }
 
     private fun validateForm(): Boolean {
+        loadingState = loadingState.copy(
+            message = null
+        )
+
         if (state.value !is HabitsEditorScreenState.Content) return false
 
         val habitName = formState.name.trim()

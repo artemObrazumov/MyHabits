@@ -55,7 +55,8 @@ import com.artem_obrazumov.habits.features.habits.presentation.util.toStringComp
 fun HabitsEditorScreen(
     backStack: NavBackStack,
     viewModel: HabitsEditorScreenViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    menu: @Composable (() -> Unit) = {}
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -64,11 +65,17 @@ fun HabitsEditorScreen(
 
     }
 
-    HabitsEditorScreenContent(
-        state = state,
-        modifier = modifier,
-        onAction = viewModel::onAction
-    )
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        menu()
+
+        HabitsEditorScreenContent(
+            state = state,
+            onAction = viewModel::onAction
+        )
+    }
 }
 
 @Composable

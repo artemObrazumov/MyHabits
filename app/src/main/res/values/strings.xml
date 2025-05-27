@@ -32,4 +32,6 @@
     <string name="measurement_too_long">Единица изменения слишком длинная</string>
     <string name="invalid_start">Некорректное текущее значение</string>
     <string name="invalid_goal">Некорректное значение цели</string>
+    <string name="back">Назад</string>
+    <string name="editing_habit">Редактирование привычки</string>
 </resources>
