@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,7 +17,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.VisualTransformation
 import com.artem_obrazumov.habits.common.ui.components.containers.InputContainer
 import com.artem_obrazumov.habits.common.ui.theme.Typography
-import com.artem_obrazumov.habits.common.ui.theme.primaryContentColor
 
 @Composable
 fun TextField(
@@ -54,12 +54,12 @@ fun TextField(
             value = value,
             singleLine = maxLines == 1,
             onValueChange = onValueChange,
-            textStyle = Typography.bodyMedium.copy(color = primaryContentColor()),
+            textStyle = Typography.bodyMedium.copy(color = LocalContentColor.current),
             minLines = minLines,
             maxLines = maxLines,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
-            visualTransformation = visualTransformation
+            visualTransformation = visualTransformation,
         )
     }
 }

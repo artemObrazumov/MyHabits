@@ -1,5 +1,6 @@
 package com.artem_obrazumov.habits.features.habits.presentation.habits_list
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,13 +12,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import com.artem_obrazumov.habits.R
 import com.artem_obrazumov.habits.common.ui.components.button.Fab
@@ -39,7 +40,7 @@ fun HabitsListScreen(
     viewModel: HabitsListScreenViewModel,
     modifier: Modifier = Modifier
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     viewModel.effect.collectEffect { effect ->
         when(effect) {
@@ -109,7 +110,8 @@ fun HabitsListScreenContentState(
         } else {
             LazyColumn(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(
                     items = habits,
@@ -150,7 +152,9 @@ fun HabitsListLoadingScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .testTag(HABITS_LIST_LOADING)
+            .padding(horizontal = 16.dp)
+            .testTag(HABITS_LIST_LOADING),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(
             count = 6

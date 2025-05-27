@@ -1,6 +1,7 @@
 package com.artem_obrazumov.habits.common.ui.theme
 
 import android.os.Build
+import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 private val DarkColorScheme = darkColorScheme(
     primary = OrangeDark,
     background = BackgroundDark,
+    surfaceContainer = DarkContainerBackground,
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -56,7 +58,8 @@ fun HabitsTheme(
         shapes = Shapes,
     ) {
         CompositionLocalProvider(
-            LocalContentColor provides primaryContentColor()
+            LocalContentColor provides primaryContentColor(),
+            LocalOverscrollFactory provides null
         ) {
             content()
         }

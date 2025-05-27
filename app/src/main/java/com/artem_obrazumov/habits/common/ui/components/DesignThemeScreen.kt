@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.artem_obrazumov.habits.common.ui.components.bars.ProgressBar
 import com.artem_obrazumov.habits.common.ui.components.button.Button
@@ -23,6 +25,7 @@ import com.artem_obrazumov.habits.common.ui.components.button.EmptyButton
 import com.artem_obrazumov.habits.common.ui.components.button.Fab
 import com.artem_obrazumov.habits.common.ui.components.containers.Card
 import com.artem_obrazumov.habits.common.ui.components.containers.ShimmerBox
+import com.artem_obrazumov.habits.common.ui.components.input.DropdownTextItem
 import com.artem_obrazumov.habits.common.ui.components.input.TextDropdownMenu
 import com.artem_obrazumov.habits.common.ui.components.input.TextField
 import com.artem_obrazumov.habits.common.ui.components.text.Label
@@ -30,6 +33,7 @@ import com.artem_obrazumov.habits.common.ui.components.text.MediumLabel
 import com.artem_obrazumov.habits.common.ui.components.text.MediumTitle
 import com.artem_obrazumov.habits.common.ui.components.text.RegularText
 import com.artem_obrazumov.habits.common.ui.components.text.Title
+import com.artem_obrazumov.habits.common.ui.theme.HabitsTheme
 import com.artem_obrazumov.habits.common.ui.theme.secondaryContentColor
 
 @Composable
@@ -93,15 +97,29 @@ fun DesignThemeScreen(
                 )
             }
         )
+        var dropdownValue by remember { mutableStateOf("") }
+        var isExpanded by remember { mutableStateOf(false) }
         TextDropdownMenu(
-            items = listOf("1", "2", "3"),
+            isExpanded = isExpanded,
+            onClick = {
+                isExpanded = true
+            },
+            value = dropdownValue,
             label = {
                 MediumLabel(
                     text = "Dropdown menu"
                 )
             },
-            onClick = {}
-        )
+        ) {
+            listOf("1", "2", "3").forEach {
+                DropdownTextItem(
+                    text = it,
+                    onClick = {
+                        dropdownValue = it
+                    }
+                )
+            }
+        }
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -132,5 +150,15 @@ fun DesignThemeScreen(
         ShimmerBox(
             modifier = Modifier.size(200.dp)
         )
+    }
+}
+
+@PreviewLightDark
+@Composable
+fun DesignThemeScreenPreview() {
+    HabitsTheme {
+        Surface {
+            DesignThemeScreen()
+        }
     }
 }
