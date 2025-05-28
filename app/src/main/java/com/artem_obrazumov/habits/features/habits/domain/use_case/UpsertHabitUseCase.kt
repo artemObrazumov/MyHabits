@@ -13,11 +13,11 @@ class UpsertHabitUseCase(
     private val habitsLocalDataSource: HabitsLocalDataSource
 ) {
 
-    suspend operator fun invoke(habit: Habit): Result<Unit, Error> {
+    suspend operator fun invoke(habit: Habit): Result<Long, Error> {
         return try {
-            habitsLocalDataSource.upsertHabit(habit)
-            Result.Success(Unit)
+            Result.Success(habitsLocalDataSource.upsertHabit(habit))
         } catch (e: Exception) {
+            e.printStackTrace()
             Result.Failure(UnknownError)
         }
     }

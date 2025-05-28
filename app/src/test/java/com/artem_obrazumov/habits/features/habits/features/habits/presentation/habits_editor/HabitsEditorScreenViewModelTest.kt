@@ -3,6 +3,7 @@ package com.artem_obrazumov.habits.features.habits.features.habits.presentation.
 import app.cash.turbine.test
 import com.artem_obrazumov.habits.common.domain.Result
 import com.artem_obrazumov.habits.common.domain.UnknownError
+import com.artem_obrazumov.habits.common.ui.util.Message
 import com.artem_obrazumov.habits.features.habits.domain.model.GoalType
 import com.artem_obrazumov.habits.features.habits.domain.model.Habit
 import com.artem_obrazumov.habits.features.habits.domain.model.ProgressFrequency
@@ -118,14 +119,13 @@ class HabitsEditorScreenViewModelTest {
     }
 
     @Test
-    fun `updates state when id is empty`() = runTest {
+    fun `updates state without loading when id is empty`() = runTest {
 
         val expectedFormState = FormState()
 
         initializeViewModel()
 
         viewModel.state.test {
-            assertEquals(HabitsEditorScreenState.Loading, awaitItem())
             assert((awaitItem() as HabitsEditorScreenState.Content).formState == expectedFormState)
             cancelAndIgnoreRemainingEvents()
         }
@@ -289,6 +289,38 @@ class HabitsEditorScreenViewModelTest {
                 (awaitItem() as HabitsEditorScreenState.Content).formState.goalString,
                 goal2
             )
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `should process form save correctly`() = runTest {
+
+        initializeViewModel()
+
+        coEvery { upsertHabitUseCase(any()) } coAnswers {
+            delay(100)
+            Result.Success(1)
+        }
+
+        viewModel.onAction(HabitsEditorScreenAction.ChangeHabitName("valid habit name"))
+        viewModel.onAction(HabitsEditorScreenAction.ChangeHabitMeasurement("measurement"))
+        viewModel.onAction(HabitsEditorScreenAction.ChangeHabitStartString("5.0"))
+        viewModel.onAction(HabitsEditorScreenAction.ChangeHabitGoalString("15.0"))
+
+        viewModel.state.test {
+            assert(awaitItem() is HabitsEditorScreenState.Content)
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        viewModel.onAction(HabitsEditorScreenAction.Save)
+
+        viewModel.state.test {
+            val state1 = (awaitItem() as HabitsEditorScreenState.Content)
+            assert(state1.loadingState.isUploading)
+            val state2 = (awaitItem() as HabitsEditorScreenState.Content)
+            assert(!state2.loadingState.isUploading)
+            assert(state2.loadingState.message is Message.Success)
             cancelAndIgnoreRemainingEvents()
         }
     }

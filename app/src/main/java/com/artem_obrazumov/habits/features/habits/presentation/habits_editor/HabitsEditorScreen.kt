@@ -157,7 +157,7 @@ fun HabitsEditorScreenContentState(
         TextDropdownMenu(
             isExpanded = goalTypeMenuExpanded,
             onClick = {
-                goalTypeMenuExpanded = true
+                goalTypeMenuExpanded = !goalTypeMenuExpanded
             },
             value = formState.goalTypeOption.asStringComp(),
             label = {
@@ -181,7 +181,7 @@ fun HabitsEditorScreenContentState(
         TextDropdownMenu(
             isExpanded = frequencyMenuExpanded,
             onClick = {
-                frequencyMenuExpanded = true
+                frequencyMenuExpanded = !frequencyMenuExpanded
             },
             value = formState.frequencyOption.asStringComp(),
             label = {

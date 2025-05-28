@@ -2,10 +2,12 @@ package com.artem_obrazumov.habits.features.habits.presentation.habits_editor
 
 import android.content.Context
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.artem_obrazumov.habits.common.ui.components.text.MessageTestTags
 import com.artem_obrazumov.habits.common.ui.screens.FailureScreenTags
 import com.artem_obrazumov.habits.common.ui.util.Message
 import com.artem_obrazumov.habits.common.ui.util.UIText
@@ -138,7 +140,7 @@ class HabitsEditorScreenTest {
     }
 
     @Test
-    fun displays_form_loading_state() {
+    fun displays_loading_message_in_correct_element() {
 
         val messageText = "Text message string"
 
@@ -154,7 +156,7 @@ class HabitsEditorScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithText(messageText)
-            .assertExists()
+        composeTestRule.onNodeWithTag(MessageTestTags.MESSAGE_TEXT)
+            .assertTextEquals(messageText)
     }
 }

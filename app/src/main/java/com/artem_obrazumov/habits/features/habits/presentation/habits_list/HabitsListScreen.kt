@@ -2,6 +2,8 @@ package com.artem_obrazumov.habits.features.habits.presentation.habits_list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,7 +40,8 @@ import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsEdit
 fun HabitsListScreen(
     backStack: NavBackStack,
     viewModel: HabitsListScreenViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    menu: @Composable (() -> Unit) = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -53,11 +56,18 @@ fun HabitsListScreen(
         }
     }
 
-    HabitsListScreenContent(
-        state = state,
-        modifier = modifier,
-        onAction = viewModel::onAction,
-    )
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        menu()
+
+        HabitsListScreenContent(
+            state = state,
+            modifier = modifier,
+            onAction = viewModel::onAction,
+        )
+    }
 }
 
 @Composable
@@ -110,8 +120,10 @@ fun HabitsListScreenContentState(
         } else {
             LazyColumn(
                 modifier = Modifier
+                    .fillMaxSize()
                     .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(vertical = 8.dp)
             ) {
                 items(
                     items = habits,

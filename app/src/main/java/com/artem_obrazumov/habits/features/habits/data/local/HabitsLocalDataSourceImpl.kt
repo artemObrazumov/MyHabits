@@ -22,7 +22,7 @@ class HabitsLocalDataSourceImpl(
         return habitDao.observeById(id).map { it.toHabit() }
     }
 
-    override suspend fun upsertHabit(habit: Habit) {
-        habitDao.upsertHabit(habit.toHabitEntity())
+    override suspend fun upsertHabit(habit: Habit): Long {
+        return habitDao.upsertHabit(habit.toHabitEntity())
     }
 }

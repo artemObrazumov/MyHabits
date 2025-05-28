@@ -18,6 +18,7 @@ class LoadHabitsUseCase(
         return try {
             Result.Success(habitsLocalDataSource.observeHabitsFromDatabase())
         } catch (e: Exception) {
+            e.printStackTrace()
             Result.Failure(UnknownError)
         }
     }

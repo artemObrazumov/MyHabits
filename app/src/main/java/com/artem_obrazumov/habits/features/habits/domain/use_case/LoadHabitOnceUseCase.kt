@@ -18,6 +18,7 @@ class LoadHabitOnceUseCase(
         return try {
             Result.Success(habitsLocalDataSource.observeHabitById(id).first())
         } catch (e: Exception) {
+            e.printStackTrace()
             Result.Failure(UnknownError)
         }
     }

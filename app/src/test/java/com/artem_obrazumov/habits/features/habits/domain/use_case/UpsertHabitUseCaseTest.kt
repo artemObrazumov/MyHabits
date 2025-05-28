@@ -33,12 +33,13 @@ class UpsertHabitUseCaseTest {
 
     @Test
     fun `returns success result correctly`() = runTest {
-        coEvery { mockLocalDataSource.upsertHabit(habit) } returns Unit
+        val id = 1L
+        coEvery { mockLocalDataSource.upsertHabit(habit) } returns id
 
         val result = upsertHabitUseCase(habit)
         assert(result is Result.Success)
 
-        assertEquals((result as Result.Success).data, Unit)
+        assertEquals((result as Result.Success).data, id)
     }
 
     @Test

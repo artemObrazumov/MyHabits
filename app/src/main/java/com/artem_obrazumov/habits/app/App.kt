@@ -41,7 +41,8 @@ fun App(
     val backStack = rememberNavBackStack(HabitsList)
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
         contentColor = LocalContentColor.current
     ) { innerPadding ->
 
@@ -70,7 +71,14 @@ fun App(
                     val viewModel: HabitsListScreenViewModel = hiltViewModel()
                     HabitsListScreen(
                         backStack = backStack,
-                        viewModel = viewModel
+                        viewModel = viewModel,
+                        menu = {
+                            TopAppBar(
+                                configuration = TopAppBarConfiguration(
+                                    title = UIText.StringResource(R.string.my_habits)
+                                )
+                            )
+                        }
                     )
                 }
 
