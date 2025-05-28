@@ -1,6 +1,7 @@
 package com.artem_obrazumov.habits.features.habits.presentation.di
 
 import com.artem_obrazumov.habits.features.habits.domain.data_source.HabitsLocalDataSource
+import com.artem_obrazumov.habits.features.habits.domain.use_case.LoadHabitDetailsUseCase
 import com.artem_obrazumov.habits.features.habits.domain.use_case.LoadHabitOnceUseCase
 import com.artem_obrazumov.habits.features.habits.domain.use_case.LoadHabitsUseCase
 import com.artem_obrazumov.habits.features.habits.domain.use_case.UpsertHabitUseCase
@@ -32,5 +33,12 @@ object UseCaseModule {
         habitsLocalDataSource: HabitsLocalDataSource
     ): UpsertHabitUseCase {
         return UpsertHabitUseCase(habitsLocalDataSource)
+    }
+
+    @Provides
+    fun provideLoadHabitDetailsUseCase(
+        habitsLocalDataSource: HabitsLocalDataSource
+    ): LoadHabitDetailsUseCase {
+        return LoadHabitDetailsUseCase(habitsLocalDataSource)
     }
 }

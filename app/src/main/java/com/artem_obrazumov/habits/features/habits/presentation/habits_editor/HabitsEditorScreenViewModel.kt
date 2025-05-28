@@ -170,56 +170,54 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
     }
 
     override fun onAction(action: HabitsEditorScreenAction) {
-        viewModelScope.launch {
-            when (action) {
-                is HabitsEditorScreenAction.ChangeHabitFrequency -> {
-                    formState = formState.copy(
-                        frequencyOption = action.frequency
-                    )
-                }
+        when (action) {
+            is HabitsEditorScreenAction.ChangeHabitFrequency -> {
+                formState = formState.copy(
+                    frequencyOption = action.frequency
+                )
+            }
 
-                is HabitsEditorScreenAction.ChangeHabitGoalType -> {
-                    formState = formState.copy(
-                        goalTypeOption = action.goalType
-                    )
-                }
+            is HabitsEditorScreenAction.ChangeHabitGoalType -> {
+                formState = formState.copy(
+                    goalTypeOption = action.goalType
+                )
+            }
 
-                is HabitsEditorScreenAction.ChangeHabitMeasurement -> {
-                    formState = formState.copy(
-                        measurement = action.measurement
-                    )
-                }
+            is HabitsEditorScreenAction.ChangeHabitMeasurement -> {
+                formState = formState.copy(
+                    measurement = action.measurement
+                )
+            }
 
-                is HabitsEditorScreenAction.ChangeHabitName -> {
-                    formState = formState.copy(
-                        name = action.name
-                    )
-                }
+            is HabitsEditorScreenAction.ChangeHabitName -> {
+                formState = formState.copy(
+                    name = action.name
+                )
+            }
 
-                is HabitsEditorScreenAction.ChangeHabitStartString -> {
-                    formState = formState.copy(
-                        startString = action.startString
-                    )
-                }
+            is HabitsEditorScreenAction.ChangeHabitStartString -> {
+                formState = formState.copy(
+                    startString = action.startString
+                )
+            }
 
-                is HabitsEditorScreenAction.ChangeHabitGoalString -> {
-                    formState = formState.copy(
-                        goalString = action.goalString
-                    )
-                }
+            is HabitsEditorScreenAction.ChangeHabitGoalString -> {
+                formState = formState.copy(
+                    goalString = action.goalString
+                )
+            }
 
-                HabitsEditorScreenAction.Retry -> {
-                    loadHabit()
-                }
+            HabitsEditorScreenAction.Retry -> {
+                loadHabit()
+            }
 
-                HabitsEditorScreenAction.Save -> {
-                    if (
-                        state.value is HabitsEditorScreenState.Content &&
-                        !(state.value as HabitsEditorScreenState.Content).loadingState.isUploading
-                    ) {
-                        if (validateForm()) {
-                            upsertHabit()
-                        }
+            HabitsEditorScreenAction.Save -> {
+                if (
+                    state.value is HabitsEditorScreenState.Content &&
+                    !(state.value as HabitsEditorScreenState.Content).loadingState.isUploading
+                ) {
+                    if (validateForm()) {
+                        upsertHabit()
                     }
                 }
             }

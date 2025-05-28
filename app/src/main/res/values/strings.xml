@@ -36,4 +36,5 @@
     <string name="editing_habit">Редактирование привычки</string>
     <string name="habit_uploaded">Привычка сохранена!</string>
     <string name="my_habits">Мои привычки</string>
+    <string name="loading">Загрузка</string>
 </resources>

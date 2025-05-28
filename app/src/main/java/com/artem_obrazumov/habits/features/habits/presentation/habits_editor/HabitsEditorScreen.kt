@@ -32,7 +32,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation3.runtime.NavBackStack
 import com.artem_obrazumov.habits.R
 import com.artem_obrazumov.habits.common.ui.components.button.Button
 import com.artem_obrazumov.habits.common.ui.components.containers.ShimmerBox
@@ -53,7 +52,6 @@ import com.artem_obrazumov.habits.features.habits.presentation.util.asStringComp
 
 @Composable
 fun HabitsEditorScreen(
-    backStack: NavBackStack,
     viewModel: HabitsEditorScreenViewModel,
     modifier: Modifier = Modifier,
     menu: @Composable (() -> Unit) = {}

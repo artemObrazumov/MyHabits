@@ -15,9 +15,9 @@ interface HabitDao {
     @Query("Select * From $HABIT_TABLE Where $IS_DELETED = 0")
     fun observeNotDeletedHabits(): Flow<List<HabitEntity>>
 
-    @Upsert
-    suspend fun upsertHabit(habit: HabitEntity): Long
-
     @Query("Select * From $HABIT_TABLE Where $ID = :id")
     fun observeById(id: Long): Flow<HabitEntity>
+
+    @Upsert
+    suspend fun upsertHabit(habit: HabitEntity): Long
 }

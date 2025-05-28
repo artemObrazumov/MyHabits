@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,6 +22,8 @@ import com.artem_obrazumov.habits.R
 import com.artem_obrazumov.habits.common.ui.components.bars.TopAppBar
 import com.artem_obrazumov.habits.common.ui.components.bars.TopAppBarConfiguration
 import com.artem_obrazumov.habits.common.ui.util.UIText
+import com.artem_obrazumov.habits.features.habits.presentation.habit_details.HabitDetailsScreen
+import com.artem_obrazumov.habits.features.habits.presentation.habit_details.HabitDetailsScreenViewModel
 import com.artem_obrazumov.habits.features.habits.presentation.habits_editor.HabitsEditorScreen
 import com.artem_obrazumov.habits.features.habits.presentation.habits_editor.HabitsEditorScreenViewModel
 import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreen
@@ -68,6 +70,7 @@ fun App(
             when (route) {
 
                 HabitsList -> NavEntry(route) {
+
                     val viewModel: HabitsListScreenViewModel = hiltViewModel()
                     HabitsListScreen(
                         backStack = backStack,
@@ -93,7 +96,6 @@ fun App(
                             factory.create(route.id)
                         }
                     HabitsEditorScreen(
-                        backStack = backStack,
                         viewModel = viewModel,
                         menu = {
                             TopAppBar(
@@ -107,7 +109,28 @@ fun App(
                 }
 
                 is HabitsDetails -> NavEntry(route) {
-                    Text(route.id.toString())
+
+                    val viewModel =
+                        hiltViewModel<HabitDetailsScreenViewModel, HabitDetailsScreenViewModel.Factory>(
+                            key = "habit_details_${route.id}"
+                        ) { factory ->
+                            factory.create(route.id)
+                        }
+                    var menuTitle: UIText = remember { UIText.StringResource(R.string.loading) }
+                    HabitDetailsScreen(
+                        viewModel = viewModel,
+                        menu = {
+                            TopAppBar(
+                                configuration = TopAppBarConfiguration(
+                                    title = menuTitle,
+                                    onBackPressed = { backStack.removeLastOrNull() }
+                                )
+                            )
+                        },
+                        onHabitTitleLoaded = { title ->
+                            menuTitle = UIText.DynamicText(title)
+                        }
+                    )
                 }
 
                 else -> throw IllegalArgumentException("No such route: $route")
