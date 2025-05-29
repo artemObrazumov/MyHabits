@@ -1,4 +1,4 @@
-package com.artem_obrazumov.habits.features.habits.data.local.converters
+package com.artem_obrazumov.habits.common.data.converters
 
 import androidx.room.TypeConverter
 import com.artem_obrazumov.habits.features.habits.domain.model.GoalType

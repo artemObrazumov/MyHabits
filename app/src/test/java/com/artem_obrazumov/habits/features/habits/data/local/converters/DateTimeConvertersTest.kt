@@ -1,8 +1,9 @@
 package com.artem_obrazumov.habits.features.habits.data.local.converters
 
+import com.artem_obrazumov.habits.common.data.converters.DateTimeConverter
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.LocalDate
-import org.junit.Assert.assertEquals
 import java.time.LocalDateTime
 
 class DateTimeConvertersTest {

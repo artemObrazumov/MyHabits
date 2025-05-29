@@ -1,5 +1,6 @@
 package com.artem_obrazumov.habits.features.habits.data.local.converters
 
+import com.artem_obrazumov.habits.common.data.converters.GoalTypeConverter
 import com.artem_obrazumov.habits.features.habits.domain.model.GoalType
 import org.junit.Assert.assertEquals
 import org.junit.Test
