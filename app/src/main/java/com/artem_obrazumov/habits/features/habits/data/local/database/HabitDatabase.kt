@@ -5,9 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.artem_obrazumov.habits.features.habits.data.local.converters.DateTimeConverter
-import com.artem_obrazumov.habits.features.habits.data.local.converters.GoalTypeConverter
-import com.artem_obrazumov.habits.features.habits.data.local.converters.ProgressFrequencyConverter
+import com.artem_obrazumov.habits.common.data.converters.DateTimeConverter
+import com.artem_obrazumov.habits.common.data.converters.GoalTypeConverter
+import com.artem_obrazumov.habits.common.data.converters.ProgressFrequencyConverter
 import com.artem_obrazumov.habits.features.habits.data.local.dao.HabitDao
 import com.artem_obrazumov.habits.features.habits.data.local.entity.HabitEntity
 

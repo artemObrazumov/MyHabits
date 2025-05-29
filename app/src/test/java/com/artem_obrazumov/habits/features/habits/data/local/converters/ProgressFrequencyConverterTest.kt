@@ -1,5 +1,6 @@
 package com.artem_obrazumov.habits.features.habits.data.local.converters
 
+import com.artem_obrazumov.habits.common.data.converters.ProgressFrequencyConverter
 import com.artem_obrazumov.habits.features.habits.domain.model.ProgressFrequency
 import org.junit.Assert.assertEquals
 import org.junit.Test
