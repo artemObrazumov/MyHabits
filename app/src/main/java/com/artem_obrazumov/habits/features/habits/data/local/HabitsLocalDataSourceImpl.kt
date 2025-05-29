@@ -2,6 +2,7 @@ package com.artem_obrazumov.habits.features.habits.data.local
 
 import com.artem_obrazumov.habits.features.habits.data.local.dao.HabitDao
 import com.artem_obrazumov.habits.features.habits.data.local.entity.toHabit
+import com.artem_obrazumov.habits.features.habits.data.local.entity.toHabitDetails
 import com.artem_obrazumov.habits.features.habits.data.local.entity.toHabitEntity
 import com.artem_obrazumov.habits.features.habits.domain.data_source.HabitsLocalDataSource
 import com.artem_obrazumov.habits.features.habits.domain.model.Habit
@@ -24,7 +25,7 @@ class HabitsLocalDataSourceImpl(
     }
 
     override suspend fun observeHabitDetailsFromDatabase(id: Long): Flow<HabitDetails> {
-        TODO()
+        return habitDao.observeHabitDetailsById(id).map { it.toHabitDetails() }
     }
 
     override suspend fun upsertHabit(habit: Habit): Long {
