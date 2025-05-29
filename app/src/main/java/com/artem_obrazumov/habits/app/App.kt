@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.NavEntry
@@ -116,7 +119,7 @@ fun App(
                         ) { factory ->
                             factory.create(route.id)
                         }
-                    var menuTitle: UIText = remember { UIText.StringResource(R.string.loading) }
+                    var menuTitle: UIText by remember { mutableStateOf(UIText.StringResource(R.string.loading)) }
                     HabitDetailsScreen(
                         viewModel = viewModel,
                         menu = {

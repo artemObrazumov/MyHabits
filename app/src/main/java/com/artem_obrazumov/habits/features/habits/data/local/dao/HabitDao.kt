@@ -2,7 +2,9 @@ package com.artem_obrazumov.habits.features.habits.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
+import com.artem_obrazumov.habits.features.habits.data.local.entity.HabitDetailsEntity
 import com.artem_obrazumov.habits.features.habits.data.local.entity.HabitEntity
 import com.artem_obrazumov.habits.features.habits.data.local.entity.HabitEntity.Companion.HABIT_TABLE
 import com.artem_obrazumov.habits.features.habits.data.local.entity.HabitEntity.Companion.ID
@@ -20,4 +22,8 @@ interface HabitDao {
 
     @Upsert
     suspend fun upsertHabit(habit: HabitEntity): Long
+
+    @Transaction
+    @Query("Select * From $HABIT_TABLE Where $ID = :id")
+    fun observeHabitDetailsById(id: Long): Flow<HabitDetailsEntity>
 }
