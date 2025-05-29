@@ -9,16 +9,22 @@ plugins {
 
 android {
     namespace = "com.artem_obrazumov.habits"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.artem_obrazumov.habits"
-        minSdk = 24
-        targetSdk = 35
+        minSdk = 26
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                argument("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -48,12 +54,17 @@ dependencies {
 
     implementation(libs.bundles.core)
     implementation(libs.bundles.compose)
+    debugImplementation(libs.bundles.compose.tooling)
     implementation(libs.bundles.serialization)
     implementation(libs.bundles.hilt)
     implementation(libs.bundles.work)
     implementation(libs.bundles.room)
     implementation(libs.bundles.retrofit)
     implementation(libs.bundles.navigation)
+
+    testImplementation(libs.bundles.testing)
+    androidTestImplementation(libs.bundles.testing.android)
+    androidTestImplementation(libs.bundles.testing.compose)
 
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)

@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +22,9 @@ fun InputContainer(
     label: @Composable (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         if (label != null) {
             label()
             Spacer(
@@ -38,8 +39,7 @@ fun InputContainer(
             }
         )
         Box(
-            modifier = modifier
-                .fillMaxWidth()
+            modifier = Modifier
                 .border(
                     color = borderColor,
                     shape = MaterialTheme.shapes.small,

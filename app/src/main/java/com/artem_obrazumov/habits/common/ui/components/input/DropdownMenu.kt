@@ -18,7 +18,6 @@ import androidx.compose.material3.MenuDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,18 +34,19 @@ import com.artem_obrazumov.habits.common.ui.theme.primaryContentColor
 
 @Composable
 fun TextDropdownMenu(
-    items: List<String>,
-    onClick: (item: String) -> Unit,
+    value: String,
+    isExpanded: Boolean,
     modifier: Modifier = Modifier,
     menuModifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    onDismissRequest: () -> Unit = {},
     label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
+    content: @Composable () -> Unit,
 ) {
     Box(
         modifier = modifier
     ) {
-        var isExpanded by remember { mutableStateOf(false) }
-        var value by remember { mutableStateOf(items.first()) }
         var inputWidth by remember { mutableIntStateOf(0) }
 
         InputContainer(
@@ -57,7 +57,7 @@ fun TextDropdownMenu(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
                 ) {
-                    isExpanded = true
+                    onClick()
                 }
                 .onGloballyPositioned { coordinates ->
                     inputWidth = coordinates.size.width
@@ -96,26 +96,17 @@ fun TextDropdownMenu(
                     }
                 ),
             expanded = isExpanded,
-            onDismissRequest = { isExpanded = false },
+            onDismissRequest = onDismissRequest,
             offset = DpOffset.Zero,
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
         ) {
-            items.forEach {
-                DropdownTextItem(
-                    text = it,
-                    onClick = {
-                        value = it
-                        onClick(it)
-                        isExpanded = false
-                    }
-                )
-            }
+            content()
         }
     }
 }
 
 @Composable
-private fun DropdownTextItem(
+fun DropdownTextItem(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
