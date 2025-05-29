@@ -24,6 +24,7 @@
 - Retrofit
 - WorkManager
 - Kotlin Serialization
+- DataStore
 - JUnit
 - Espresso
 - MockK

@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.bundles.hilt)
     implementation(libs.bundles.work)
     implementation(libs.bundles.room)
+    implementation(libs.bundles.datastore)
     implementation(libs.bundles.retrofit)
     implementation(libs.bundles.navigation)
 
