@@ -80,6 +80,7 @@ fun HabitsListScreenContent(
     when(state) {
         is HabitsListScreenState.Content -> {
             HabitsListScreenContentState(
+                modifier = modifier,
                 habits = state.habitsList,
                 onAction = onAction
             )

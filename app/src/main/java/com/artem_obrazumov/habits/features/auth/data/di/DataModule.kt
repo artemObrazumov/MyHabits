@@ -9,6 +9,7 @@ import com.artem_obrazumov.habits.features.auth.domain.data_source.UsersLocalDat
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -27,7 +28,7 @@ object DataModule {
     @Provides
     @Singleton
     fun provideUsersLocalDataSource(
-        context: Context,
+        @ApplicationContext context: Context,
         usersDao: UsersDao
     ): UsersLocalDataSource {
         return UsersLocalDataSourceImpl(

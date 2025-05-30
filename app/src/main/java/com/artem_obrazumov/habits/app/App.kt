@@ -130,6 +130,9 @@ fun App(
                                     ToolbarItem(
                                         painterResource(R.drawable.edit),
                                         contentDescription = stringResource(R.string.edit),
+                                        onClick = {
+                                            backStack.add(HabitsEditor(route.id))
+                                        }
                                     )
                                 }
                             )

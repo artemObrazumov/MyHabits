@@ -9,12 +9,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
 object UseCaseModule {
 
     @Provides
+    @ViewModelScoped
     fun provideLoadHabitsUseCase(
         habitsLocalDataSource: HabitsLocalDataSource
     ): LoadHabitsUseCase {
@@ -22,6 +24,7 @@ object UseCaseModule {
     }
 
     @Provides
+    @ViewModelScoped
     fun provideLoadHabitOnceUseCase(
         habitsLocalDataSource: HabitsLocalDataSource
     ): LoadHabitOnceUseCase {
@@ -29,6 +32,7 @@ object UseCaseModule {
     }
 
     @Provides
+    @ViewModelScoped
     fun provideUpsertHabitUseCase(
         habitsLocalDataSource: HabitsLocalDataSource
     ): UpsertHabitUseCase {
@@ -36,6 +40,7 @@ object UseCaseModule {
     }
 
     @Provides
+    @ViewModelScoped
     fun provideLoadHabitDetailsUseCase(
         habitsLocalDataSource: HabitsLocalDataSource
     ): LoadHabitDetailsUseCase {
