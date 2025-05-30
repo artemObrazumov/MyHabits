@@ -17,13 +17,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.artem_obrazumov.habits.R
+import com.artem_obrazumov.habits.common.ui.components.bars.ToolbarItem
 import com.artem_obrazumov.habits.common.ui.components.bars.TopAppBar
-import com.artem_obrazumov.habits.common.ui.components.bars.TopAppBarConfiguration
 import com.artem_obrazumov.habits.common.ui.util.UIText
 import com.artem_obrazumov.habits.features.habits.presentation.habit_details.HabitDetailsScreen
 import com.artem_obrazumov.habits.features.habits.presentation.habit_details.HabitDetailsScreenViewModel
@@ -80,9 +82,7 @@ fun App(
                         viewModel = viewModel,
                         menu = {
                             TopAppBar(
-                                configuration = TopAppBarConfiguration(
-                                    title = UIText.StringResource(R.string.my_habits)
-                                )
+                                title = UIText.StringResource(R.string.my_habits)
                             )
                         }
                     )
@@ -102,10 +102,8 @@ fun App(
                         viewModel = viewModel,
                         menu = {
                             TopAppBar(
-                                configuration = TopAppBarConfiguration(
-                                    title = UIText.StringResource(R.string.editing_habit),
-                                    onBackPressed = { backStack.removeLastOrNull() }
-                                )
+                                title = UIText.StringResource(R.string.editing_habit),
+                                onBackPressed = { backStack.removeLastOrNull() }
                             )
                         }
                     )
@@ -113,9 +111,11 @@ fun App(
 
                 is HabitsDetails -> NavEntry(route) {
 
+                    val viewModelKey = rememberSaveable { UUID.randomUUID().toString() }
+
                     val viewModel =
                         hiltViewModel<HabitDetailsScreenViewModel, HabitDetailsScreenViewModel.Factory>(
-                            key = "habit_details_${route.id}"
+                            key = "habit_details_${route.id}_$viewModelKey"
                         ) { factory ->
                             factory.create(route.id)
                         }
@@ -124,10 +124,14 @@ fun App(
                         viewModel = viewModel,
                         menu = {
                             TopAppBar(
-                                configuration = TopAppBarConfiguration(
-                                    title = menuTitle,
-                                    onBackPressed = { backStack.removeLastOrNull() }
-                                )
+                                title = menuTitle,
+                                onBackPressed = { backStack.removeLastOrNull() },
+                                toolbar = {
+                                    ToolbarItem(
+                                        painterResource(R.drawable.edit),
+                                        contentDescription = stringResource(R.string.edit),
+                                    )
+                                }
                             )
                         },
                         onHabitTitleLoaded = { title ->
