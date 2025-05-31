@@ -31,6 +31,7 @@ import com.artem_obrazumov.habits.common.ui.components.text.MediumLabel
 import com.artem_obrazumov.habits.common.ui.components.text.RegularText
 import com.artem_obrazumov.habits.common.ui.theme.secondaryContentColor
 import com.artem_obrazumov.habits.common.ui.util.formatToString
+import com.artem_obrazumov.habits.features.auth.domain.model.User
 import com.artem_obrazumov.habits.features.habits.domain.model.HabitDetails
 import java.time.format.DateTimeFormatter
 
@@ -39,6 +40,7 @@ fun HabitDetailsCard(
     habitDetails: HabitDetails,
     modifier: Modifier = Modifier,
     activeUserId: Long? = null,
+    localUser: User? = null
 ) {
     val habit = habitDetails.habit
     val users = habitDetails.users
@@ -128,12 +130,16 @@ fun HabitDetailsCard(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-//                    SelfParticipantItem(
-//                        name =
-//                    )
-//                    users.forEach { user ->
-//                        ParticipantItem(user)
-//                    }
+                    SelfParticipantItem(
+                        name = localUser?.name,
+                        isActive = (activeUserId == null)
+                    )
+                    users.forEach { user ->
+                        ParticipantItem(
+                            user = user,
+                            isActive = (activeUserId == user.id)
+                        )
+                    }
                 }
             }
         }

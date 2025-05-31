@@ -101,7 +101,8 @@ fun HabitDetailsScreenContentState(
     ) {
         item {
             HabitDetailsCard(
-                habitDetails = state.habitDetails
+                habitDetails = state.habitDetails,
+                localUser = state.localUser
             )
         }
 

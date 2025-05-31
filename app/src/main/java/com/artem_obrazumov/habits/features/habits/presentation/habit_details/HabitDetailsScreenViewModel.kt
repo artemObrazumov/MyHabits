@@ -1,7 +1,7 @@
 package com.artem_obrazumov.habits.features.habits.presentation.habit_details
 
 import androidx.lifecycle.viewModelScope
-import com.artem_obrazumov.habits.common.domain.Error
+import com.artem_obrazumov.habits.R
 import com.artem_obrazumov.habits.common.domain.Result
 import com.artem_obrazumov.habits.common.ui.util.UIText
 import com.artem_obrazumov.habits.common.ui.view_model.Action
@@ -17,6 +17,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 @HiltViewModel(
@@ -30,60 +32,84 @@ class HabitDetailsScreenViewModel @AssistedInject constructor(
     initialState = HabitDetailsScreenState.Loading
 ) {
 
+    private var userProgressListObservingJob: Job? = null
+
     init {
-        observeHabitDetails()
+        observeHabitDetailsAndUserInfo()
     }
 
-    private fun observeHabitDetails() {
+    private fun observeHabitDetailsAndUserInfo() {
         viewModelScope.launch {
             updateState(HabitDetailsScreenState.Loading)
-            habitsRepository.observeHabitDetailsById(id).collect { result ->
-                onHabitDetailsResult(result)
-            }
-        }
-    }
-
-    private fun onHabitDetailsResult(result: Result<HabitDetails, Error>) {
-        when (result) {
-            is Result.Failure -> {
-
-            }
-
-            is Result.Success -> {
-                val details = result.data
-                updateState(
-                    if (state.value is HabitDetailsScreenState.Content) {
-                        (state.value as HabitDetailsScreenState.Content).copy(
-                            habitDetails = details
-                        )
-                    } else {
-                        HabitDetailsScreenState.Content(
-                            habitDetails = details
+            combine(
+                habitsRepository.observeHabitDetailsById(id),
+                usersRepository.observeLocalUser()
+            ) { habitsResult, userResult ->
+                when (habitsResult) {
+                    is Result.Failure -> {
+                        HabitDetailsScreenState.Failure(
+                            when (habitsResult.error) {
+                                else -> UIText.StringResource(R.string.unknown_error)
+                            }
                         )
                     }
-                )
-                observeLocalUser()
+
+                    is Result.Success -> {
+                        val user = if (userResult is Result.Success) {
+                            userResult.data
+                        } else {
+                            null
+                        }
+                        produceContentState(habitsResult.data, user)
+                    }
+                }
+            }.collect { state ->
+                updateState(state)
             }
         }
     }
 
-    private fun observeLocalUser() {
-        viewModelScope.launch {
-            usersRepository.observeLocalUser().collect { result ->
-                onLocalUserResult(result)
+    private fun produceContentState(
+        details: HabitDetails,
+        localUser: User?
+    ): HabitDetailsScreenState.Content {
+
+        val oldSelectedUserId = getSelectedUserIdFromState(state.value)
+        // Setting selected user to null if it was in old user list but not present in the current one
+        val newSelectedUserId =
+            if (oldSelectedUserId != null && details.users.firstOrNull { it.id == oldSelectedUserId } != null) {
+                oldSelectedUserId
+            } else {
+                null
             }
-        }
+        observeUserProgressList(newSelectedUserId)
+        return HabitDetailsScreenState.Content(
+            habitDetails = details,
+            localUser = localUser,
+            selectedUserId = newSelectedUserId
+        )
     }
 
-    private fun onLocalUserResult(result: Result<User?, Error>) {
+    private fun getSelectedUserIdFromState(state: HabitDetailsScreenState): Long? {
+        return if (state is HabitDetailsScreenState.Content) {
+            state.selectedUserId
+        } else null
+    }
 
+    private fun observeUserProgressList(id: Long? = null) {
+        userProgressListObservingJob?.cancel()
+        userProgressListObservingJob = viewModelScope.launch {
+
+        }
     }
 
     override fun onAction(action: HabitDetailsScreenAction) {
         when (action) {
             HabitDetailsScreenAction.AddProgress -> TODO()
             is HabitDetailsScreenAction.LoadProgressList -> {
-
+                if (action.userId != (state.value as HabitDetailsScreenState.Content).selectedUserId) {
+                    observeUserProgressList()
+                }
             }
 
             HabitDetailsScreenAction.Retry -> TODO()
@@ -102,6 +128,8 @@ sealed interface HabitDetailsScreenState : State {
 
     data class Content(
         val habitDetails: HabitDetails,
+        val selectedUserId: Long? = null,
+        val localUser: User? = null,
         val progressState: ProgressState = ProgressState.Idle
     ) : HabitDetailsScreenState
 

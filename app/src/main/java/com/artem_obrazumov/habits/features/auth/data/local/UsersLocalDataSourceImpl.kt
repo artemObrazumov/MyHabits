@@ -10,7 +10,6 @@ import com.artem_obrazumov.habits.features.auth.domain.data_source.UsersLocalDat
 import com.artem_obrazumov.habits.features.auth.domain.model.User
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -23,7 +22,6 @@ class UsersLocalDataSourceImpl(
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun observeLocalUser(): Flow<User?> {
         return authDataStore.data.map { data -> data[LOCAL_USER_ID] }
-            .distinctUntilChanged()
             .flatMapLatest { id ->
                 if (id == null) {
                     flowOf(null)

@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.artem_obrazumov.habits.R
 import com.artem_obrazumov.habits.common.ui.components.text.RegularText
+import com.artem_obrazumov.habits.common.ui.theme.secondaryContainerColor
 import com.artem_obrazumov.habits.features.auth.domain.model.User
 
 @Composable
@@ -65,11 +66,7 @@ fun ParticipantContainer(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = if (isActive) {
-                    MaterialTheme.colorScheme.onSecondaryFixed
-                } else {
-                    MaterialTheme.colorScheme.onSecondary
-                },
+                color = secondaryContainerColor(isActive),
                 shape = MaterialTheme.shapes.medium
             )
             .padding(8.dp),
