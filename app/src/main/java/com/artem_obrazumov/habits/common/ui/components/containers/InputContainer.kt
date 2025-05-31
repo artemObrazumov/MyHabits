@@ -3,14 +3,17 @@ package com.artem_obrazumov.habits.common.ui.components.containers
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.artem_obrazumov.habits.common.ui.theme.disabledOutlineColor
@@ -20,6 +23,7 @@ fun InputContainer(
     modifier: Modifier = Modifier,
     isFocused: Boolean = false,
     label: @Composable (() -> Unit)? = null,
+    afterField: @Composable (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     Column(
@@ -38,20 +42,28 @@ fun InputContainer(
                 disabledOutlineColor()
             }
         )
-        Box(
-            modifier = Modifier
-                .border(
-                    color = borderColor,
-                    shape = MaterialTheme.shapes.small,
-                    width = 1.dp
-                )
-                .background(
-                    color = MaterialTheme.colorScheme.surfaceContainer,
-                    shape = MaterialTheme.shapes.small
-                )
-                .padding(12.dp)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            content()
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .border(
+                        color = borderColor,
+                        shape = MaterialTheme.shapes.small,
+                        width = 1.dp
+                    )
+                    .background(
+                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        shape = MaterialTheme.shapes.small
+                    )
+                    .padding(12.dp)
+            ) {
+                content()
+            }
+
+            afterField?.invoke()
         }
     }
 }

@@ -29,9 +29,12 @@ import com.artem_obrazumov.habits.features.habits.presentation.habits_editor.Hab
 import com.artem_obrazumov.habits.features.habits.presentation.habits_editor.HabitsEditorScreenViewModel
 import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreen
 import com.artem_obrazumov.habits.features.habits.presentation.habits_list.HabitsListScreenViewModel
+import com.artem_obrazumov.habits.features.habits.presentation.progress_editor.ProgressEditorScreen
+import com.artem_obrazumov.habits.features.habits.presentation.progress_editor.ProgressEditorScreenViewModel
 import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsDetails
 import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsEditor
 import com.artem_obrazumov.habits.features.habits.presentation.routes.HabitsList
+import com.artem_obrazumov.habits.features.habits.presentation.routes.ProgressEditor
 import java.util.UUID
 
 const val ANIMATION_DURATION = 300
@@ -116,6 +119,7 @@ fun App(
                             factory.create(route.id)
                         }
                     HabitDetailsScreen(
+                        backStack = backStack,
                         viewModel = viewModel,
                         menu = { habitName ->
                             TopAppBar(
@@ -132,6 +136,21 @@ fun App(
                                 }
                             )
                         }
+                    )
+                }
+
+                is ProgressEditor -> NavEntry(route) {
+                    val viewModelKey = rememberSaveable { UUID.randomUUID().toString() }
+
+                    val viewModel =
+                        hiltViewModel<ProgressEditorScreenViewModel, ProgressEditorScreenViewModel.Factory>(
+                            key = viewModelKey
+                        ) { factory ->
+                            factory.create(route.habitId, route.id)
+                        }
+
+                    ProgressEditorScreen(
+                        viewModel = viewModel
                     )
                 }
 

@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation3.runtime.NavBackStack
 import com.artem_obrazumov.habits.R
 import com.artem_obrazumov.habits.common.ui.components.button.Button
 import com.artem_obrazumov.habits.common.ui.components.text.MediumTitle
@@ -22,9 +23,12 @@ import com.artem_obrazumov.habits.common.ui.screens.FailureScreen
 import com.artem_obrazumov.habits.common.ui.util.UIText
 import com.artem_obrazumov.habits.common.ui.util.collectEffect
 import com.artem_obrazumov.habits.features.habits.presentation.components.HabitDetailsCard
+import com.artem_obrazumov.habits.features.habits.presentation.habit_details.HabitDetailsScreenEffect.NavigateToProgressEditor
+import com.artem_obrazumov.habits.features.habits.presentation.routes.ProgressEditor
 
 @Composable
 fun HabitDetailsScreen(
+    backStack: NavBackStack,
     viewModel: HabitDetailsScreenViewModel,
     modifier: Modifier = Modifier,
     menu: @Composable ((UIText) -> Unit) = {}
@@ -32,7 +36,13 @@ fun HabitDetailsScreen(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    viewModel.effect.collectEffect {}
+    viewModel.effect.collectEffect { effect ->
+        when(effect) {
+            is NavigateToProgressEditor -> {
+                backStack.add(ProgressEditor(effect.habitId, effect.id))
+            }
+        }
+    }
 
     Column(
         modifier = modifier

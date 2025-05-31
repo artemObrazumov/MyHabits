@@ -49,7 +49,7 @@ class HabitDetailsScreenViewModel @AssistedInject constructor(
                     is Result.Failure -> {
                         HabitDetailsScreenState.Failure(
                             when (habitsResult.error) {
-                                else -> UIText.StringResource(R.string.unknown_error)
+                                else -> UIText.StringResource(R.string.unknown_loading_error)
                             }
                         )
                     }
@@ -74,6 +74,10 @@ class HabitDetailsScreenViewModel @AssistedInject constructor(
         localUser: User?
     ): HabitDetailsScreenState.Content {
 
+        requireNotNull(details.habit.id) {
+            "You cant open details for habit without id"
+        }
+
         val oldSelectedUserId = getSelectedUserIdFromState(state.value)
         // Setting selected user to null if it was in old user list but not present in the current one
         val newSelectedUserId =
@@ -84,6 +88,7 @@ class HabitDetailsScreenViewModel @AssistedInject constructor(
             }
         observeUserProgressList(newSelectedUserId)
         return HabitDetailsScreenState.Content(
+            habitId = details.habit.id,
             habitDetails = details,
             localUser = localUser,
             selectedUserId = newSelectedUserId
@@ -104,15 +109,23 @@ class HabitDetailsScreenViewModel @AssistedInject constructor(
     }
 
     override fun onAction(action: HabitDetailsScreenAction) {
-        when (action) {
-            HabitDetailsScreenAction.AddProgress -> TODO()
-            is HabitDetailsScreenAction.LoadProgressList -> {
-                if (action.userId != (state.value as HabitDetailsScreenState.Content).selectedUserId) {
-                    observeUserProgressList()
+        viewModelScope.launch {
+            when (action) {
+                HabitDetailsScreenAction.AddProgress -> {
+                    val state = state.value as HabitDetailsScreenState.Content
+                    updateEffect(
+                        HabitDetailsScreenEffect.NavigateToProgressEditor(state.habitId, null)
+                    )
                 }
-            }
 
-            HabitDetailsScreenAction.Retry -> TODO()
+                is HabitDetailsScreenAction.LoadProgressList -> {
+                    if (action.userId != (state.value as HabitDetailsScreenState.Content).selectedUserId) {
+                        observeUserProgressList()
+                    }
+                }
+
+                HabitDetailsScreenAction.Retry -> TODO()
+            }
         }
     }
 
@@ -127,6 +140,7 @@ sealed interface HabitDetailsScreenState : State {
     data object Loading : HabitDetailsScreenState
 
     data class Content(
+        val habitId: Long,
         val habitDetails: HabitDetails,
         val selectedUserId: Long? = null,
         val localUser: User? = null,
@@ -160,4 +174,10 @@ sealed interface HabitDetailsScreenAction : Action {
     ) : HabitDetailsScreenAction
 }
 
-sealed interface HabitDetailsScreenEffect : Effect
+sealed interface HabitDetailsScreenEffect : Effect {
+
+    data class NavigateToProgressEditor(
+        val habitId: Long,
+        val id: Long?
+    ) : HabitDetailsScreenEffect
+}

@@ -41,7 +41,7 @@ class HabitsListScreenViewModel @Inject constructor(
                 updateState(
                     HabitsListScreenState.Failure(
                         when(result.error) {
-                            else -> UIText.StringResource(R.string.unknown_error)
+                            else -> UIText.StringResource(R.string.unknown_loading_error)
                         }
                     )
                 )

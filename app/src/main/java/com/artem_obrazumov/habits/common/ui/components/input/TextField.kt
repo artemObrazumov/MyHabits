@@ -28,6 +28,7 @@ fun TextField(
     enabled: Boolean = true,
     label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
+    afterField: @Composable (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None
@@ -37,7 +38,9 @@ fun TextField(
     InputContainer(
         isFocused = isFocused,
         label = label,
+        afterField = afterField,
         modifier = modifier
+            .fillMaxWidth()
             .alpha(
                 if (enabled) {
                     1f

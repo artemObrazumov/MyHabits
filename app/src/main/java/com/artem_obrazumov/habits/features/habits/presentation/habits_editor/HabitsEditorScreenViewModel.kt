@@ -43,7 +43,7 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
     }
 
     init {
-        loadHabit()
+        loadHabitForm()
     }
 
     private fun updateContentState() {
@@ -58,7 +58,7 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
         }
     }
 
-    private fun loadHabit() {
+    private fun loadHabitForm() {
         viewModelScope.launch {
             if (id == null) {
                 updateContentState()
@@ -70,7 +70,7 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
                     updateState(
                         HabitsEditorScreenState.Failure(
                             when (result.error) {
-                                else -> UIText.StringResource(R.string.unknown_error)
+                                else -> UIText.StringResource(R.string.unknown_loading_error)
                             }
                         )
                     )
@@ -211,7 +211,7 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
             }
 
             HabitsEditorScreenAction.Retry -> {
-                loadHabit()
+                loadHabitForm()
             }
 
             HabitsEditorScreenAction.Save -> {

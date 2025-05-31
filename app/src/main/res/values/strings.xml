@@ -4,7 +4,7 @@
     <string name="user_single">участник</string>
     <string name="user_plural1">участника</string>
     <string name="user_plural2">участников</string>
-    <string name="unknown_error">При загрузке произошла неизвестная ошибка. Попробуйте снова.</string>
+    <string name="unknown_loading_error">При загрузке произошла неизвестная ошибка. Попробуйте снова.</string>
     <string name="error_occured">Произошла ошибка</string>
     <string name="retry">Попробовать снова</string>
     <string name="add_habit">Добавить привычку</string>
@@ -45,4 +45,9 @@
     <string name="open">Открыть</string>
     <string name="me">Я</string>
     <string name="me_name">Я (%1$s)</string>
+    <string name="content">Содержание</string>
+    <string name="content_placeholder">Например: Сегодня пробежал 3 км</string>
+    <string name="new_progress">Новый прогресс</string>
+    <string name="new_progress_placeholder">Например: 5</string>
+    <string name="unknown_habit_loading_error">Произошла неизвестная ошибка при загрузке данных привычки. Попробуйте снова</string>
 </resources>

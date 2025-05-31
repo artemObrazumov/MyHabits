@@ -4,14 +4,20 @@ import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object HabitsList: NavKey
+data object HabitsList : NavKey
 
 @Serializable
 data class HabitsEditor(
     val id: Long? = null
-): NavKey
+) : NavKey
 
 @Serializable
 data class HabitsDetails(
     val id: Long
-): NavKey
+) : NavKey
+
+@Serializable
+data class ProgressEditor(
+    val habitId: Long,
+    val id: Long? = null,
+) : NavKey
