@@ -19,6 +19,7 @@ import com.artem_obrazumov.habits.R
 import com.artem_obrazumov.habits.common.ui.components.button.Button
 import com.artem_obrazumov.habits.common.ui.components.text.MediumTitle
 import com.artem_obrazumov.habits.common.ui.screens.FailureScreen
+import com.artem_obrazumov.habits.common.ui.util.UIText
 import com.artem_obrazumov.habits.common.ui.util.collectEffect
 import com.artem_obrazumov.habits.features.habits.presentation.components.HabitDetailsCard
 
@@ -26,25 +27,26 @@ import com.artem_obrazumov.habits.features.habits.presentation.components.HabitD
 fun HabitDetailsScreen(
     viewModel: HabitDetailsScreenViewModel,
     modifier: Modifier = Modifier,
-    menu: @Composable (() -> Unit) = {},
-    onHabitTitleLoaded: (String) -> Unit
+    menu: @Composable ((UIText) -> Unit) = {}
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    viewModel.effect.collectEffect { effect ->
-        when (effect) {
-            is HabitDetailsScreenEffect.UpdateHabitName -> {
-                onHabitTitleLoaded(effect.name)
-            }
-        }
-    }
+    viewModel.effect.collectEffect {}
 
     Column(
         modifier = modifier
             .fillMaxSize()
     ) {
-        menu()
+        menu(
+            if (state is HabitDetailsScreenState.Content) {
+                UIText.DynamicText(
+                    (state as HabitDetailsScreenState.Content).habitDetails.habit.name
+                )
+            } else {
+                UIText.StringResource(R.string.loading)
+            }
+        )
 
         HabitDetailsScreenContent(
             state = state,

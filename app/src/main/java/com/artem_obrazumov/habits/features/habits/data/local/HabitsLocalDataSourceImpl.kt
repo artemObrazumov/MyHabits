@@ -14,17 +14,17 @@ class HabitsLocalDataSourceImpl(
     private val habitDao: HabitDao
 ): HabitsLocalDataSource {
 
-    override suspend fun observeHabitsFromDatabase(): Flow<List<Habit>> {
+    override fun observeHabitsFromDatabase(): Flow<List<Habit>> {
         return habitDao.observeNotDeletedHabits().map { habits ->
             habits.map { it.toHabit() }
         }
     }
 
-    override suspend fun observeHabitById(id: Long): Flow<Habit> {
+    override fun observeHabitById(id: Long): Flow<Habit> {
         return habitDao.observeById(id).map { it.toHabit() }
     }
 
-    override suspend fun observeHabitDetailsFromDatabase(id: Long): Flow<HabitDetails> {
+    override fun observeHabitDetailsFromDatabase(id: Long): Flow<HabitDetails> {
         return habitDao.observeHabitDetailsById(id).map { it.toHabitDetails() }
     }
 

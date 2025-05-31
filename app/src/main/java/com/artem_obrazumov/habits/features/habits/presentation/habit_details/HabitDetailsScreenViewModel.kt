@@ -1,6 +1,7 @@
 package com.artem_obrazumov.habits.features.habits.presentation.habit_details
 
 import androidx.lifecycle.viewModelScope
+import com.artem_obrazumov.habits.common.domain.Error
 import com.artem_obrazumov.habits.common.domain.Result
 import com.artem_obrazumov.habits.common.ui.util.UIText
 import com.artem_obrazumov.habits.common.ui.view_model.Action
@@ -8,9 +9,9 @@ import com.artem_obrazumov.habits.common.ui.view_model.Effect
 import com.artem_obrazumov.habits.common.ui.view_model.State
 import com.artem_obrazumov.habits.common.ui.view_model.StatefulViewModel
 import com.artem_obrazumov.habits.features.auth.domain.use_case.ObserveLocalUserUseCase
+import com.artem_obrazumov.habits.features.habits.domain.HabitsRepository
 import com.artem_obrazumov.habits.features.habits.domain.model.HabitDetails
 import com.artem_obrazumov.habits.features.habits.domain.model.Progress
-import com.artem_obrazumov.habits.features.habits.domain.use_case.LoadHabitDetailsUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -22,42 +23,45 @@ import kotlinx.coroutines.launch
 )
 class HabitDetailsScreenViewModel @AssistedInject constructor(
     @Assisted val id: Long,
-    private val loadHabitDetailsUseCase: LoadHabitDetailsUseCase,
+    private val habitsRepository: HabitsRepository,
     private val observeLocalUserUseCase: ObserveLocalUserUseCase,
 ) : StatefulViewModel<HabitDetailsScreenState, HabitDetailsScreenAction, HabitDetailsScreenEffect>(
     initialState = HabitDetailsScreenState.Loading
 ) {
 
     init {
-        loadHabitDetails()
+        observeHabitDetails()
     }
 
-    private fun loadHabitDetails() {
+    private fun observeHabitDetails() {
         viewModelScope.launch {
-            when (val result = loadHabitDetailsUseCase(id)) {
-                is Result.Failure -> {
+            updateState(HabitDetailsScreenState.Loading)
+            habitsRepository.observeHabitDetailsById(id).collect { result ->
+                onHabitDetailsResult(result)
+            }
+        }
+    }
 
-                }
+    private suspend fun onHabitDetailsResult(result: Result<HabitDetails, Error>) {
+        when (result) {
+            is Result.Failure -> {
 
-                is Result.Success -> {
-                    updateState(HabitDetailsScreenState.Loading)
-                    result.data.collect { details ->
-                        updateState(
-                            if (state.value is HabitDetailsScreenState.Content) {
-                                (state.value as HabitDetailsScreenState.Content).copy(
-                                    habitDetails = details
-                                )
-                            } else {
-                                HabitDetailsScreenState.Content(
-                                    habitDetails = details
-                                )
-                            }
+            }
+
+            is Result.Success -> {
+                val details = result.data
+                updateState(
+                    if (state.value is HabitDetailsScreenState.Content) {
+                        (state.value as HabitDetailsScreenState.Content).copy(
+                            habitDetails = details
                         )
-
-                        updateEffect(HabitDetailsScreenEffect.UpdateHabitName(details.habit.name))
+                    } else {
+                        HabitDetailsScreenState.Content(
+                            habitDetails = details
+                        )
                     }
-                    observeLocalUser()
-                }
+                )
+                observeLocalUser()
             }
         }
     }
@@ -129,9 +133,4 @@ sealed interface HabitDetailsScreenAction : Action {
     ) : HabitDetailsScreenAction
 }
 
-sealed interface HabitDetailsScreenEffect : Effect {
-
-    data class UpdateHabitName(
-        val name: String
-    ) : HabitDetailsScreenEffect
-}
+sealed interface HabitDetailsScreenEffect : Effect

@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface HabitsLocalDataSource {
 
-    suspend fun observeHabitsFromDatabase(): Flow<List<Habit>>
-    suspend fun observeHabitById(id: Long): Flow<Habit>
-    suspend fun observeHabitDetailsFromDatabase(id: Long): Flow<HabitDetails>
+    fun observeHabitsFromDatabase(): Flow<List<Habit>>
+    fun observeHabitById(id: Long): Flow<Habit>
+    fun observeHabitDetailsFromDatabase(id: Long): Flow<HabitDetails>
     suspend fun upsertHabit(habit: Habit): Long
 }

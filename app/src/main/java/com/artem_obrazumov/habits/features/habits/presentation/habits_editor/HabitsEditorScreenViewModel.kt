@@ -9,15 +9,15 @@ import com.artem_obrazumov.habits.common.ui.view_model.Action
 import com.artem_obrazumov.habits.common.ui.view_model.Effect
 import com.artem_obrazumov.habits.common.ui.view_model.State
 import com.artem_obrazumov.habits.common.ui.view_model.StatefulViewModel
+import com.artem_obrazumov.habits.features.habits.domain.HabitsRepository
 import com.artem_obrazumov.habits.features.habits.domain.model.GoalType
 import com.artem_obrazumov.habits.features.habits.domain.model.Habit
 import com.artem_obrazumov.habits.features.habits.domain.model.ProgressFrequency
-import com.artem_obrazumov.habits.features.habits.domain.use_case.LoadHabitOnceUseCase
-import com.artem_obrazumov.habits.features.habits.domain.use_case.UpsertHabitUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -28,8 +28,7 @@ import kotlin.properties.Delegates
 )
 class HabitsEditorScreenViewModel @AssistedInject constructor(
     @Assisted val id: Long? = null,
-    private val loadHabitOnceUseCase: LoadHabitOnceUseCase,
-    private val upsertHabitUseCase: UpsertHabitUseCase,
+    private val habitsRepository: HabitsRepository,
     private val habitsEditorFormValidator: HabitsEditorFormValidator
 ) : StatefulViewModel<HabitsEditorScreenState, HabitsEditorScreenAction, HabitsEditorScreenEffect>(
     initialState = HabitsEditorScreenState.Loading
@@ -64,7 +63,7 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
                 return@launch
             }
 
-            when (val result = loadHabitOnceUseCase(id)) {
+            when (val result = habitsRepository.observeHabitById(id).first()) {
                 is Result.Failure -> {
                     updateState(
                         HabitsEditorScreenState.Failure(
@@ -149,7 +148,7 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
                 editedAt = LocalDateTime.now(),
                 usersCount = formState.userCount
             )
-            when(val result = upsertHabitUseCase.invoke(habit)) {
+            when(val result = habitsRepository.upsertHabit(habit)) {
                 is Result.Failure -> {
                     val messageResource = when(result.error) {
                         else -> R.string.error_occured
