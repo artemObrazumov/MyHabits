@@ -8,7 +8,8 @@ import com.artem_obrazumov.habits.common.ui.view_model.Action
 import com.artem_obrazumov.habits.common.ui.view_model.Effect
 import com.artem_obrazumov.habits.common.ui.view_model.State
 import com.artem_obrazumov.habits.common.ui.view_model.StatefulViewModel
-import com.artem_obrazumov.habits.features.auth.domain.use_case.ObserveLocalUserUseCase
+import com.artem_obrazumov.habits.features.auth.domain.UsersRepository
+import com.artem_obrazumov.habits.features.auth.domain.model.User
 import com.artem_obrazumov.habits.features.habits.domain.HabitsRepository
 import com.artem_obrazumov.habits.features.habits.domain.model.HabitDetails
 import com.artem_obrazumov.habits.features.habits.domain.model.Progress
@@ -24,7 +25,7 @@ import kotlinx.coroutines.launch
 class HabitDetailsScreenViewModel @AssistedInject constructor(
     @Assisted val id: Long,
     private val habitsRepository: HabitsRepository,
-    private val observeLocalUserUseCase: ObserveLocalUserUseCase,
+    private val usersRepository: UsersRepository,
 ) : StatefulViewModel<HabitDetailsScreenState, HabitDetailsScreenAction, HabitDetailsScreenEffect>(
     initialState = HabitDetailsScreenState.Loading
 ) {
@@ -42,7 +43,7 @@ class HabitDetailsScreenViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun onHabitDetailsResult(result: Result<HabitDetails, Error>) {
+    private fun onHabitDetailsResult(result: Result<HabitDetails, Error>) {
         when (result) {
             is Result.Failure -> {
 
@@ -68,16 +69,14 @@ class HabitDetailsScreenViewModel @AssistedInject constructor(
 
     private fun observeLocalUser() {
         viewModelScope.launch {
-            when (val result = observeLocalUserUseCase()) {
-                is Result.Failure -> {
-
-                }
-
-                is Result.Success -> {
-
-                }
+            usersRepository.observeLocalUser().collect { result ->
+                onLocalUserResult(result)
             }
         }
+    }
+
+    private fun onLocalUserResult(result: Result<User?, Error>) {
+
     }
 
     override fun onAction(action: HabitDetailsScreenAction) {

@@ -21,7 +21,7 @@ class UsersLocalDataSourceImpl(
 ): UsersLocalDataSource {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override suspend fun observeLocalUser(): Flow<User?> {
+    override fun observeLocalUser(): Flow<User?> {
         return authDataStore.data.map { data -> data[LOCAL_USER_ID] }
             .distinctUntilChanged()
             .flatMapLatest { id ->
@@ -33,11 +33,11 @@ class UsersLocalDataSourceImpl(
             }
     }
 
-    override suspend fun observeUserById(id: Long): Flow<User?> {
+    override fun observeUserById(id: Long): Flow<User?> {
         return usersDao.observeById(id).map { it?.toUser() }
     }
 
-    override suspend fun upsertUser(user: User): Long {
+    override suspend fun upsertUserLocally(user: User): Long {
         return usersDao.upsertUser(user.toUserEntity())
     }
 }

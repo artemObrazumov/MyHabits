@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UsersLocalDataSource {
 
-    suspend fun observeLocalUser(): Flow<User?>
-    suspend fun observeUserById(id: Long): Flow<User?>
-    suspend fun upsertUser(user: User): Long
+    fun observeLocalUser(): Flow<User?>
+    fun observeUserById(id: Long): Flow<User?>
+    suspend fun upsertUserLocally(user: User): Long
 }
