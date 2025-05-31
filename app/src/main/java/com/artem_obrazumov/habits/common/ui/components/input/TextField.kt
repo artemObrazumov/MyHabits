@@ -25,6 +25,7 @@ fun TextField(
     modifier: Modifier = Modifier,
     minLines: Int = 1,
     maxLines: Int = 1,
+    enabled: Boolean = true,
     label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -37,6 +38,13 @@ fun TextField(
         isFocused = isFocused,
         label = label,
         modifier = modifier
+            .alpha(
+                if (enabled) {
+                    1f
+                } else {
+                    0.6f
+                }
+            )
     ) {
         if (value.isEmpty()) {
             Box(
@@ -57,6 +65,7 @@ fun TextField(
             textStyle = Typography.bodyMedium.copy(color = LocalContentColor.current),
             minLines = minLines,
             maxLines = maxLines,
+            enabled = enabled,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
             visualTransformation = visualTransformation,

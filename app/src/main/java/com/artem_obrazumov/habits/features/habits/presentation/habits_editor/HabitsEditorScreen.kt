@@ -21,6 +21,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component1
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component2
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component3
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -98,6 +101,7 @@ fun HabitsEditorScreenContent(
         }
         is HabitsEditorScreenState.Content -> {
             HabitsEditorScreenContentState(
+                id = state.habitId,
                 formState = state.formState,
                 loadingState = state.loadingState,
                 onAction = onAction
@@ -108,11 +112,13 @@ fun HabitsEditorScreenContent(
 
 @Composable
 fun HabitsEditorScreenContentState(
+    id: Long?,
     formState: FormState,
     loadingState: LoadingState,
     modifier: Modifier = Modifier,
     onAction: (action: HabitsEditorScreenAction) -> Unit = {},
 ) {
+    val isEditingFirstTime = (id == null)
     val scrollState = rememberScrollState()
     val focusManager = LocalFocusManager.current
     val (measurementField, startField, goalField) = remember { FocusRequester.createRefs() }
@@ -236,6 +242,7 @@ fun HabitsEditorScreenContentState(
                     .weight(1f)
                     .focusRequester(startField),
                 value = formState.startString,
+                enabled = isEditingFirstTime,
                 onValueChange = {
                     onAction(HabitsEditorScreenAction.ChangeHabitStartString(it))
                 },
@@ -265,6 +272,7 @@ fun HabitsEditorScreenContentState(
                     .weight(1f)
                     .focusRequester(goalField),
                 value = formState.goalString,
+                enabled = isEditingFirstTime,
                 onValueChange = {
                     onAction(HabitsEditorScreenAction.ChangeHabitGoalString(it))
                 },
@@ -387,6 +395,7 @@ fun HabitsEditorScreenPreview() {
     HabitsTheme {
         Surface {
             HabitsEditorScreenContentState(
+                id = null,
                 formState = FormState(),
                 loadingState = LoadingState()
             )

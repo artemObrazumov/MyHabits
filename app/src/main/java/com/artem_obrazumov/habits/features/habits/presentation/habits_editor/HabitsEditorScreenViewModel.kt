@@ -27,7 +27,7 @@ import kotlin.properties.Delegates
     assistedFactory = HabitsEditorScreenViewModel.Factory::class
 )
 class HabitsEditorScreenViewModel @AssistedInject constructor(
-    @Assisted val id: Long? = null,
+    @Assisted var id: Long? = null,
     private val habitsRepository: HabitsRepository,
     private val habitsEditorFormValidator: HabitsEditorFormValidator
 ) : StatefulViewModel<HabitsEditorScreenState, HabitsEditorScreenAction, HabitsEditorScreenEffect>(
@@ -37,6 +37,7 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
     private var formState by Delegates.observable(FormState()) { _, old, new ->
         if (old != new) updateContentState()
     }
+
     private var loadingState by Delegates.observable(LoadingState()) { _, old, new ->
         if (old != new) updateContentState()
     }
@@ -49,6 +50,7 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
         viewModelScope.launch {
             updateState(
                 HabitsEditorScreenState.Content(
+                    habitId = id,
                     formState = formState,
                     loadingState = loadingState
                 )
@@ -63,7 +65,7 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
                 return@launch
             }
 
-            when (val result = habitsRepository.observeHabitById(id).first()) {
+            when (val result = habitsRepository.observeHabitById(id!!).first()) {
                 is Result.Failure -> {
                     updateState(
                         HabitsEditorScreenState.Failure(
@@ -159,6 +161,8 @@ class HabitsEditorScreenViewModel @AssistedInject constructor(
                     )
                 }
                 is Result.Success -> {
+                    id = result.data
+                    updateContentState()
                     loadingState = loadingState.copy(
                         message = Message.Success(UIText.StringResource(R.string.habit_uploaded)),
                         isUploading = false
@@ -234,6 +238,7 @@ sealed interface HabitsEditorScreenState : State {
     data object Loading : HabitsEditorScreenState
 
     data class Content(
+        val habitId: Long? = null,
         val formState: FormState = FormState(),
         val loadingState: LoadingState = LoadingState()
     ) : HabitsEditorScreenState
